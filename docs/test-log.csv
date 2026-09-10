@@ -1,0 +1,2 @@
+date,version,test,expected_result,actual_result,status,evidence_file,notes
+2026-09-10,stage-1,Sketch syntax check,Static city code passes the local syntax check,Pending Processing runtime test,PENDING,,Run in Processing on student's computer

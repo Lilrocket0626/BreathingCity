@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07122e"/>
+      <stop offset="1" stop-color="#123e57"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity="0.25"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#8ecae6"/></marker>
+    <style>
+      .node { fill:#f3fbff; stroke:#56b4d3; stroke-width:4; filter:url(#shadow); }
+      .core { fill:#ffd166; stroke:#f5a623; stroke-width:5; filter:url(#shadow); }
+      .label { font-family:Arial,sans-serif; font-size:28px; font-weight:700; fill:#10283a; text-anchor:middle; dominant-baseline:middle; }
+      .small { font-family:Arial,sans-serif; font-size:20px; fill:#365568; text-anchor:middle; }
+      .line { stroke:#8ecae6; stroke-width:5; fill:none; marker-end:url(#arrow); }
+      .caption { font-family:Arial,sans-serif; font-size:24px; fill:#d9f2ff; }
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <text x="70" y="70" class="caption" font-weight="700">INITIAL CONCEPT MAP - 10 SEPTEMBER 2026</text>
+  <text x="70" y="110" class="caption">Current understanding before microphone integration and user testing</text>
+
+  <path class="line" d="M685 425 C565 350 470 280 365 250"/>
+  <path class="line" d="M680 500 C520 500 430 500 340 500"/>
+  <path class="line" d="M685 575 C555 655 475 715 365 750"/>
+  <path class="line" d="M915 425 C1040 345 1130 285 1235 250"/>
+  <path class="line" d="M920 500 C1080 500 1170 500 1260 500"/>
+  <path class="line" d="M915 575 C1050 650 1135 715 1235 750"/>
+
+  <rect class="core" x="650" y="390" width="300" height="220" rx="42"/>
+  <text class="label" x="800" y="480">BREATHING CITY</text>
+  <text class="small" x="800" y="525">make invisible breath visible</text>
+
+  <rect class="node" x="105" y="165" width="320" height="170" rx="32"/>
+  <text class="label" x="265" y="225">INPUT</text>
+  <text class="small" x="265" y="270">microphone amplitude</text>
+
+  <rect class="node" x="75" y="415" width="350" height="170" rx="32"/>
+  <text class="label" x="250" y="475">DATA</text>
+  <text class="small" x="250" y="520">raw level → mapped value</text>
+
+  <rect class="node" x="105" y="665" width="320" height="170" rx="32"/>
+  <text class="label" x="265" y="725">CODE</text>
+  <text class="small" x="265" y="770">variables, loops, classes</text>
+
+  <rect class="node" x="1175" y="165" width="320" height="170" rx="32"/>
+  <text class="label" x="1335" y="225">VISUALS</text>
+  <text class="small" x="1335" y="270">skyline, colour, particles</text>
+
+  <rect class="node" x="1175" y="415" width="350" height="170" rx="32"/>
+  <text class="label" x="1350" y="475">INTERACTION</text>
+  <text class="small" x="1350" y="520">breath changes the artwork</text>
+
+  <rect class="node" x="1175" y="665" width="320" height="170" rx="32"/>
+  <text class="label" x="1335" y="725">TESTING</text>
+  <text class="small" x="1335" y="770">sensitivity and clarity</text>
+</svg>
