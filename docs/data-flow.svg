@@ -35,8 +35,8 @@
 
   <rect class="process" x="470" y="295" width="660" height="135" rx="28"/>
   <text class="label" x="800" y="335">PROCESS THE SIGNAL</text>
-  <text class="small" x="800" y="375">subtract room noise → map and constrain → attack/release smoothing</text>
-  <text class="small" x="800" y="405">raw amplitude becomes stable and comparable</text>
+  <text class="small" x="800" y="375">subtract room noise → map and constrain</text>
+  <text class="small" x="800" y="405">attack/release smoothing → stable intensity</text>
 
   <rect class="core" x="615" y="495" width="370" height="135" rx="30"/>
   <text class="label" x="800" y="540">INTENSITY</text>
