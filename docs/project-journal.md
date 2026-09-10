@@ -49,6 +49,51 @@ Install the Processing Sound library, capture microphone amplitude, and display 
 
 ---
 
+## Entry 2 - Sound data and responsive systems
+
+Date: 10 September 2026
+
+### Goal
+
+Connect the microphone to multiple visual systems without allowing background noise to make the artwork flicker.
+
+### Work completed
+
+- Added `AudioIn` and `Amplitude` from the Processing Sound library.
+- Added a three-second calibration stage that estimates the room's noise floor.
+- Subtracted the noise floor from the raw amplitude and mapped the remaining signal to a constrained `0.0-1.0` intensity value.
+- Used different smoothing rates for attack and release so the city responds quickly but returns to calm gradually.
+- Connected the shared intensity value to the sky, moon, building windows, harbour, particles, and waves.
+- Added a threshold-crossing test and cooldown for wave creation.
+- Added mouse simulation mode so the full interaction can still be demonstrated if microphone permissions fail.
+- Added a live data graph to make the hidden input-processing stages visible.
+
+### Important design decision
+
+One processed intensity value controls several outputs. This creates a coherent visual system while keeping the data flow traceable in the explainer video:
+
+`microphone → raw amplitude → calibration → mapping → smoothing → intensity → visual systems`
+
+### Evidence
+
+- Updated `BreathingCity/BreathingCity.pde`
+- Live data panel in the running sketch
+- Git commit for Stage 2
+
+### Your genuine reflection - complete after running Stage 2
+
+- Did the calibration finish successfully?
+- What raw level appeared in a quiet room?
+- How did the animation respond to soft and strong breaths?
+- Did the response feel too sensitive, too weak, or appropriate?
+- Which code concept became clearer after watching the live graph?
+
+### Next step
+
+Run the sketch on the student's computer, record measured values in the test log, tune thresholds, gather peer feedback, and then make an evidence-based final revision.
+
+---
+
 ## Entry template - duplicate for every development session
 
 Date:
@@ -75,5 +120,4 @@ Date:
 
 
 ### Next step
-
 
