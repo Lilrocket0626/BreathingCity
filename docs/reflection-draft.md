@@ -1,9 +1,12 @@
 # Breathing City Critical Reflection
 
-**Student:** Jiangpeng Huang  
-**Student number:** 14559823  
-**Subject:** 52685 Creative Coding  
-**Assessment:** A2 Code Prototype Project  
+**Student:** Jiangpeng Huang
+
+**Student number:** 14559823
+
+**Subject:** 52685 Creative Coding
+
+**Assessment:** A2 Code Prototype Project
 
 ## Reflective narrative
 
