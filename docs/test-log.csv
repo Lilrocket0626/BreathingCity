@@ -1,5 +1,5 @@
 date,version,test,expected_result,actual_result,status,evidence_file,notes
-2026-09-10,stage-1,Sketch syntax check,Static city code passes the local syntax check,Pending Processing runtime test,PENDING,,Run in Processing on student's computer
+2026-09-10,stage-1,Sketch syntax check,Source passes the local structural syntax check,Passed local structural Java check,PASS,,Structural check only; still run in Processing on student's computer
 2026-09-10,stage-2,Microphone calibration,Calibration completes after three quiet seconds,Pending student runtime test,PENDING,,Record the measured noise floor
 2026-09-10,stage-2,Soft breath response,City changes gently without triggering excessive waves,Pending student runtime test,PENDING,,Record amplitude and observations
 2026-09-10,stage-2,Strong breath response,City becomes brighter and particles move faster,Pending student runtime test,PENDING,,Record amplitude and observations

@@ -37,10 +37,11 @@ int lastWaveFrame = -WAVE_COOLDOWN_FRAMES;
 
 void settings() {
   size(1280, 720);
+  // Processing requires the smoothing level to be selected in settings().
+  smooth(8);
 }
 
 void setup() {
-  smooth(8);
   frameRate(60);
   surface.setTitle("Breathing City - Jiangpeng Huang");
 

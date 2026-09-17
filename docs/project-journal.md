@@ -94,6 +94,69 @@ Run the sketch on the student's computer, record measured values in the test log
 
 ---
 
+## Entry 3 - Code explanation and evidence design
+
+Date: 17 September 2026
+
+### Goal
+
+Make the code structure traceable enough to explain in a three-minute video and assess against the A2 rubric.
+
+### Work completed
+
+- Divided the explanation into signal processing, event detection and particle management.
+- Added a data-flow diagram showing how one processed intensity value controls several outputs.
+- Added a fixed-size circular history graph so recent intensity can be observed without continually increasing memory use.
+- Wrote runtime tests for calibration, soft breath, strong breath, simulation mode and interface controls.
+- Created a peer-feedback form focused on interaction clarity and response differences.
+
+### Technical correction
+
+During review, `smooth(8)` was moved from `setup()` into `settings()`, which is the valid location for selecting Processing's smoothing level. This is evidence that code can pass a structural Java check but still require environment-specific review.
+
+### Evidence
+
+- `docs/code-walkthrough.md`
+- `docs/data-flow.png`
+- `docs/test-log.csv`
+- `docs/peer-feedback-form.md`
+- Git commit for Stage 3 and final-document revision
+
+### Limitation recorded honestly
+
+The source has not yet been run with the Processing Sound library and a live microphone on the student's computer. Runtime observations and peer comments remain pending and must not be invented.
+
+### Next step
+
+Complete the real runtime test, collect peer feedback, record the measured results, and commit an evidence-based revision.
+
+---
+
+## Entry 4 - Concept-map comparison and submission planning
+
+Date: 17 September 2026
+
+### Goal
+
+Compare the initial project understanding with the developed code architecture and identify remaining submission risks.
+
+### Work completed
+
+- Created a final concept map connecting calibration, mapping, smoothing, state, events, objects, visuals and testing.
+- Drafted the critical reflection using the initial and final maps as evidence.
+- Drafted a timed explainer script that allocates most of the video to underlying code.
+- Prepared the GenAI declaration, prompt log and finalisation checklist.
+
+### Comparison
+
+The initial map treats input, data and visuals as broad categories. The final map shows that input becomes useful only after calibration and interpretation; continuous values and discrete events require different logic; and testing is part of the system rather than an activity added at the end.
+
+### Next step
+
+Replace planned evidence with genuine test results, screenshots, feedback, tutor permission and a public GitHub link before submission.
+
+---
+
 ## Entry template - duplicate for every development session
 
 Date:
@@ -120,4 +183,3 @@ Date:
 
 
 ### Next step
-

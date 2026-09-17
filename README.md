@@ -75,6 +75,16 @@ BreathingCity_A2/
 ├── docs/
 │   ├── concept-map-start.svg
 │   ├── concept-map-start.png
+│   ├── concept-map-final.svg
+│   ├── concept-map-final.png
+│   ├── data-flow.svg
+│   ├── data-flow.png
+│   ├── code-walkthrough.md
+│   ├── explainer-video-script.md
+│   ├── reflection-draft.md
+│   ├── genai-declaration.md
+│   ├── ai-prompt-log.md
+│   ├── finalisation-checklist.md
 │   ├── evidence/
 │   ├── peer-feedback-form.md
 │   ├── project-journal.md
@@ -110,6 +120,8 @@ Development and test evidence is stored in `docs/`. Tests that require an actual
 The visual composition, data pipeline, calibration method, smoothing behaviour, class structure, fallback controls, and implementation in this repository were created specifically for *Breathing City*. The sources below were consulted to confirm library interfaces and support understanding of relevant creative-coding concepts. No source example was copied as the project implementation.
 
 The use of generative AI during development will be disclosed in the submitted written reflection and its appendix in accordance with the teaching team's written permission.
+
+The current repository is a pre-submission build. The code and documentation are complete, but live Processing tests, peer feedback, runtime screenshots, the public GitHub URL, and the narrated MP4 must be produced as genuine evidence before the assessment is submitted. See `docs/finalisation-checklist.md`.
 
 ## References
 
