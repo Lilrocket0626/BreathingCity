@@ -1,1 +1,0 @@
-Finally, exponential smoothing uses elapsed time. Its coefficient is one minus e to the power of negative delta-time divided by tau. Attack takes a shorter time constant than release, so the city responds quickly and settles gradually.

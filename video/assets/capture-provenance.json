@@ -1,8 +1,0 @@
-{
-  "source_directory": "/Users/jackson.zhou/work/ZC2026100102/.tools/capture-demo/frames",
-  "frame_count_used": 720,
-  "animation_fps": 30,
-  "first_frame_sha256": "ef1693ff9591bdd5219c7d0a182629a4103145b4a7d724f43ba9850d6590915c",
-  "last_frame_sha256": "de36c9a99f4acadab44475be77498bd600d0d7c621491e4424e2a65d72e4bc90",
-  "method": "Processing save() from the running final Java sketch; labelled synthetic RMS; not desktop capture or microphone proof"
-}
