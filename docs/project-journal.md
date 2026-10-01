@@ -82,3 +82,7 @@ A direct callback test exposed a guided-test state defect: N changed device whil
 The native rendered endurance run completed 600.014 animation seconds and 34,825 frames, with mean FPS 58.21, peak 180 particles and 3 ripples. The early/late telemetry FPS means were 57.46 / 57.79. Rendering, envelope and effects were unchanged during that run; the later R/N handler correction was separately tested. This is approximately ten minutes of GUI operation, distinct from the accelerated 1,800-second state test. Full values and limitations appear in `runtime-test-report.md`.
 
 The final package preserves the 21 baseline files, source hashes, a complete source patch, original failed regression output, measured CSVs, runtime PNGs, code guides, concept diagrams and the 180-second synthetic-narrated video. Human action/visual confirmation, peer feedback and five genuine course sources remain separate evidence requirements.
+
+## Chinese video edition
+
+At the user's request, the explainer was adapted into Mandarin narration, Chinese captions and Chinese presentation cards. The English code excerpts and actual Processing-rendered source footage remain traceable. The Chinese edition is180seconds at1080p, using disclosed macOS Tingting synthetic speech. Subtitle timings use measured speech-unit lengths; light/water and expiry/ripple card changes were aligned to the corresponding Mandarin clauses. Both language editions are retained. This media edit does not constitute another microphone test or personal student experience.
