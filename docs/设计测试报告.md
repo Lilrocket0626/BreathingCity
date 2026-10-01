@@ -79,11 +79,11 @@ The captured video and sustained run exercise unchanged rendering, audio-envelop
 
 - [Calm](evidence/demo/02-calm.png), [gentle](evidence/demo/03-gentle.png), [strong](evidence/demo/04-strong.png), [recovery](evidence/demo/05-recovery.png): actual Processing-rendered synthetic-input states.
 - [Guided live microphone screenshot](evidence/human-trial-01/guided-strong.png): actual microphone input and on-screen requested action.
-- [Three-minute video](../video/BreathingCity_3min_Explainer.mp4): 180 seconds, 1920×1080, H.264/AAC, about 7.7 MiB. Full decode succeeded. It contains actual rendered demo footage, exact source excerpts, captions and clearly disclosed synthetic English narration.
-- [Video validation](../video/video-validation.json): encoding, duration, excerpt and visual checks. No human listening test is claimed.
+- Historical three-minute video export (not included in this package): 180 seconds, 1920×1080, H.264/AAC, about 7.7 MiB. Full decode succeeded. It contains actual rendered demo footage, exact source excerpts, captions and clearly disclosed synthetic English narration.
+- Historical video validation covered encoding, duration, excerpt and visual checks. The separate media validation file is not included in this package. No human listening test is claimed.
 
 ## Acceptance boundary and remaining evidence
 
 The code builds and runs on the tested Mac with the actual stated library versions, captures live RMS and presents labelled simulation. Numeric tests, code bounds, rendered sequences and independent-copy verification support software correctness within their recorded scopes.
 
-Still required from the student/course: confirm the guided actions and qualitative result, record any personal tuning revision, collect real peer feedback and provide at least five genuine course sources. The reflection remains an evidence-based working document with explicit gaps. Public technical references do not satisfy the course-source requirement by themselves. No peer response, tutor permission, student learning experience, clean-OS installation or untested-platform compatibility has been invented.
+Still required from the student/course: confirm the guided actions and qualitative result, record any personal tuning revision, collect real peer feedback and provide at least five genuine course sources. Reflection drafts are maintained separately from the runnable project. Public technical references do not satisfy the course-source requirement by themselves. No peer response, tutor permission, student learning experience, clean-OS installation or untested-platform compatibility has been invented.

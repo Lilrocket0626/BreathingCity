@@ -4,7 +4,7 @@ This script describes the actual implementation. It does not claim the student p
 
 ## Narration (377 words; produced video timing)
 
-Output: [BreathingCity_3min_Explainer.mp4](../video/BreathingCity_3min_Explainer.mp4), 180 seconds, 1920×1080, approximately 7.7 MiB. The narration is synthetic English speech; visual interaction footage is from the actual running sketch with labelled synthetic RMS input. [Narration text](../video/narration.txt) and [captions](../video/captions.srt) are retained.
+Historical output (video not included in the current package): `BreathingCity_3min_Explainer.mp4`, 180 seconds, 1920×1080, approximately 7.7 MiB. The narration is synthetic English speech; visual interaction footage is from the actual running sketch with labelled synthetic RMS input. [Narration text](../presentation/subtitles/BreathingCity_Narration_en.txt) and [captions](../presentation/subtitles/BreathingCity_Subtitles_en.srt) are retained.
 
 ### 0:00–0:20 — Project
 

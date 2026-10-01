@@ -1,6 +1,6 @@
 # References and contribution register
 
-Verified against the linked primary sources on 1 October 2026. These are **public technical references**. None has been verified as a prescribed course reading. The separate five-course-source requirement is still recorded in [course-sources-needed.md](course-sources-needed.md).
+Verified against the linked primary sources on 1 October 2026. These are **public technical references**. None has been verified as a prescribed course reading. The separate course-source register is retained with the working drafts outside the submission directory.
 
 ## APA 7 reference list
 

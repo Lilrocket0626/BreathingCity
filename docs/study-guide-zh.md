@@ -1,6 +1,6 @@
 # 代码复习与三分钟讲解指南
 
-现在可直接观看[三分钟中文版视频](../video/zh/BreathingCity_3min_Explainer_zh-CN.mp4)，并下载[中文字幕](../video/zh/captions.zh-CN.srt)或阅读[完整中文讲稿](../video/zh/narration.txt)。
+可使用[中文 PPT 和字幕文稿](../presentation/README.md)，或阅读[完整中文讲稿](../presentation/subtitles/BreathingCity_Narration_zh-CN.txt)。
 这份文档用于理解最终代码。运行结果以实际运行报告和 `evidence/` 为准；下面的示例数字不是实测呼吸值。
 
 ## 从头读一次

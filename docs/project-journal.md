@@ -32,13 +32,13 @@
 
 **Action:** Consult official Processing references, list exactly what each reference contributed, remove unverified earlier student/tutor/course claims from active documents, and mark course-source and peer-feedback gaps explicitly.
 
-**Evidence:** [References](references.md), [AI log](ai-prompt-log.md), [declaration](genai-declaration.md), [course-source register](course-sources-needed.md), [peer form](peer-feedback-form.md).
+**Evidence:** [References](references.md), [AI log](ai-prompt-log.md), [declaration](genai-declaration.md). The course-source register and blank peer form were later moved to separate working drafts.
 
 ## J5 — Completed software checks and demonstration
 
 **Recorded results:** The real Processing 4.5.7 build with Sound 2.4.0 passed. The deterministic signal tests passed 11 cases with 547 assertions. The production-effects harness completed 324,012 assertions across 30 simulated minutes; observed counts stayed at or below 180 particles and 3 ripples (the configured ripple cap remains 8). Simulated duration is not 30 minutes of GUI/audio wall-clock performance.
 
-**Runtime evidence:** The application rendered a labelled synthetic sequence used for demonstration. A separate live microphone capture produced changing RMS values without capture errors. A [180-second 1080p explainer](../video/BreathingCity_3min_Explainer.mp4) was produced with actual rendered demonstration footage, readable code sections and English synthetic narration; its file size is approximately 7.7 MiB. This is a project/implementation demonstration, not a student-voiced presentation or evidence of real breath actions.
+**Runtime evidence:** The application rendered a labelled synthetic sequence used for demonstration. A separate live microphone capture produced changing RMS values without capture errors. A 180-second 1080p explainer was produced with actual rendered demonstration footage, readable code sections and English synthetic narration; its file size is approximately 7.7 MiB. This is a project/implementation demonstration, not a student-voiced presentation or evidence of real breath actions.
 
 **Evidence:** [Runtime report](runtime-test-report.md), `docs/evidence/`, [narration and shot list](explainer-video-script.md). Fresh-copy verification and the separate sustained GUI test were still in progress when this entry was written; the runtime report contains their final status.
 

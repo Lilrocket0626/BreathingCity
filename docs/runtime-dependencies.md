@@ -50,12 +50,12 @@ Sources and acknowledgements apply to the actual artifact used. API usage follow
 These are not sketch dependencies. They are useful only to rebuild evidence.
 
 - JDK 17+ for command-line tests; this session used Processing's bundled Temurin 17.0.20.1+1.
-- Python 3 with Pillow for video cards; the delivered video is already playable.
+- Python 3 with Pillow for the previously produced video cards; media files are outside the current project package.
 - FFmpeg/FFprobe 7.1.1 for H.264/AAC encoding, captions and validation.
-- macOS `say`, Samantha voice, for synthetic English narration. The narration files are retained for rebuilding without another speech synthesis step. This is not the student's voice.
+- macOS `say`, Samantha voice, for synthetic English narration. The narration text remains under `presentation/subtitles/`; audio assets are not included in this package. This is not the student's voice.
 - System Arial and Menlo fonts for presentation graphics; those fonts are not redistributed. Java `SansSerif` is used by the sketch itself.
 
-The video includes original runtime exports and code excerpts, with no external footage or music. See [video provenance](../video/README.md).
+The previously produced video used original runtime exports and code excerpts, with no external footage or music. It used labelled synthetic input and synthetic narration. The video and its authoring assets are not part of this project package.
 
 ## Optional evidence capture
 
@@ -73,4 +73,4 @@ With `BC_RUN_DIR`, telemetry stores RMS and state values, not audio. Without it,
 
 ## Chinese video edition
 
-The Chinese edition uses macOS Tingting synthetic Mandarin narration and Heiti SC presentation/caption text, with Menlo for source code. It reuses the actual Processing-rendered demo clip. Font binaries are not distributed. The script is `tools/build_video_zh.py`; all these tools remain optional authoring dependencies. See [Chinese video documentation](../video/zh/README.md).
+The Chinese edition uses macOS Tingting synthetic Mandarin narration and Heiti SC presentation/caption text, with Menlo for source code. It reuses the actual Processing-rendered demo clip. Font binaries are not distributed. The script is `tools/build_video_zh.py`; all these tools remain optional authoring dependencies. The Chinese video and its authoring assets are not included in this package.

@@ -75,6 +75,8 @@ Tuning is intentionally session-only. Mouse mode controls visual intensity direc
 
 ## Files for the assessor
 
+**Presentation materials:** [English / 中文 PPT and subtitle manuscripts](presentation/README.md). Each language has a 12-slide editable deck, a Word manuscript, UTF-8 narration, and its original timecoded SRT captions.
+
 ```text
 BreathingCity_A2/
 ├── README.md                           Start here
@@ -89,33 +91,25 @@ BreathingCity_A2/
 │   ├── runtime-test-report.md          What was actually run and measured
 │   ├── code-walkthrough.md             English technical explanation
 │   ├── study-guide-zh.md               Chinese revision and explanation guide
-│   ├── reflection-draft.md             Evidence-based reflection for completion
 │   ├── project-journal.md              Recorded revision process
 │   ├── issue-log.md                    Defects, changes and evidence
 │   ├── concept-map-start.svg/.png      Reconstructed baseline concept map
 │   ├── concept-map-final.svg/.png      Revised implementation concept map
 │   ├── data-flow.svg/.png              Audio-to-image pipeline
 │   ├── references.md                   APA 7 references and contributions
-│   ├── course-sources-needed.md        Unverified course-source requirements
-│   ├── peer-feedback-form.md           Blank form for real peer feedback
 │   ├── genai-declaration.md            Accurate assistance disclosure
 │   └── evidence/                      Actual screenshots, CSVs and reports
-├── video/
-│   ├── BreathingCity_3min_Explainer.mp4 Three-minute project/code explanation
-│   ├── captions.srt                       Captions
-│   └── README.md                       Capture and synthetic-narration provenance
+├── presentation/                      English/Chinese PPT and subtitle manuscripts
 ├── tests/                              Tests against production code and results
 ├── tools/                              Optional verification/video tools
-└── archive/baseline-2026-10-01/          UNMODIFIED supplied baseline and documents
+└── archive/                            Preserved baseline code and history
 ```
 
 ## Validation and evidence
 
-**Chinese edition:** [三分钟中文讲解视频](video/zh/BreathingCity_3min_Explainer_zh-CN.mp4) · [中文字幕](video/zh/captions.zh-CN.srt). The original English edition is retained.
-
 The baseline and final sketch were compiled using real Processing, not API stubs. Actual demo frames and an initial microphone capture are retained. Automated numeric/state tests operate on the production classes. See the [runtime test report](docs/runtime-test-report.md) and [test instructions](docs/runtime-test-instructions.md) for exact results and limits; screenshot mode labels distinguish simulated input from microphone observations.
 
-The English and Chinese video editions contain actual Processing-rendered demo frames, readable code excerpts and synthetic narration in their respective languages. It is a study/explanation aid; course rules may require the student to record their own voice and demonstration.
+The current package contains the runnable sketch, screenshots, technical documentation, PPT decks and subtitle manuscripts. See [archive export notes](archive/EXPORT-NOTES.md) for the baseline files included in the distribution.
 
 ## Known limitations and troubleshooting
 
@@ -127,7 +121,7 @@ The English and Chinese video editions contain actual Processing-rendered demo f
 - **Library startup error:** verify architecture and library installation. The tested ARM Mac used Sound's default JavaSound backend; do not force its x86-only macOS PortAudio binary.
 - **Slow machine:** the animation uses elapsed time, with pauses clamped to 0.1 seconds. Long stalls therefore slow animation time. Recording every PNG lowers FPS and is not a benchmark of ordinary interactive performance.
 - **No persistent settings:** threshold and sensitivity reset on restart. Screenshots require a writable project directory.
-- **Human/academic evidence:** peer feedback and five genuine course materials must come from the student/course. Public technical references are not automatically course sources. The active reflection identifies missing evidence; archived historical claims are unverified inherited material.
+- **Human/academic evidence:** peer feedback and five genuine course materials must come from the student/course. Public technical references are not automatically course sources. Archived historical claims are unverified inherited material.
 
 ## Sources and contribution
 

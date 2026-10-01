@@ -11,7 +11,7 @@ Use this alongside the current README and actual runtime report. Checkmarks here
 - [x] English code walkthrough, Chinese study guide and three-minute video narration/shot list.
 - [x] Current-session journal, issue log and honest AI/source attribution.
 - [x] Public technical sources verified and formatted in APA 7.
-- [x] Reflection working document with explicit course/peer/student evidence gaps.
+- [x] Unfinished reflection and collection forms separated from the submission directory.
 
 ## Check against generated evidence, not this list
 

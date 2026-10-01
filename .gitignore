@@ -4,3 +4,5 @@ Thumbs.db
 application.*
 build/
 out/
+__pycache__/
+*.pyc
