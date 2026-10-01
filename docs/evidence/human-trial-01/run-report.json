@@ -1,0 +1,17 @@
+{
+  "max_ripples": 3,
+  "animation_seconds": 62.0051383972168,
+  "os": "Mac OS X 26.6.2",
+  "rendered_frames": 2995,
+  "max_particles": 180,
+  "min_fps_after_warmup": 25.674776077270508,
+  "mode": "MICROPHONE",
+  "evidence_limit": "Live amplitude, no labelled human breath trial",
+  "java": "17.0.20.1",
+  "microphone_error": "",
+  "fixed_animation_clock": false,
+  "project_version": "2.0",
+  "mean_fps_after_warmup": 50.376155853271484,
+  "device": "Default Audio Device",
+  "microphone_opened": true
+}

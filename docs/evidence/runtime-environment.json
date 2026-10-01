@@ -1,0 +1,40 @@
+{
+  "recorded_at": "2026-10-01",
+  "host": {
+    "os": "macOS",
+    "version": "26.6.2",
+    "build": "25G83",
+    "architecture": "arm64"
+  },
+  "processing": {
+    "version": "4.5.7",
+    "revision": 1435,
+    "release_url": "https://github.com/processing/processing4/releases/tag/processing-1435-4.5.7",
+    "download_url": "https://github.com/processing/processing4/releases/download/processing-1435-4.5.7/processing-4.5.7-macos-aarch64-portable.zip",
+    "sha256": "5753aa93611217ef0b6d58b38ce11927cd20c38ce47b03724aee95977b837c59",
+    "official_sha256_matched": true,
+    "bundled_sketch_java": "Temurin 17.0.20.1+1"
+  },
+  "sound": {
+    "version": "2.4.0",
+    "internal_version": 18,
+    "release_url": "https://github.com/processing/processing-sound/releases/tag/v2.4.0",
+    "download_url": "https://github.com/processing/processing-sound/releases/download/v2.4.0/sound.zip",
+    "sha256": "3fd1296e93b4172d1b1a9fa087e56d42fd28e1d0764f478d14668e1673a6bfa2",
+    "library_properties_verified": true,
+    "jsyn_version": "17.1.0",
+    "audio_backend_note": "Use default JavaSound. ZIP contains macOS x86_64 PortAudio native only; no ARM PortAudio."
+  },
+  "verification": {
+    "baseline_processing_build": "PASS, Commander output Finished., exit 0",
+    "build_time_local": "2026-10-01",
+    "microphone_test": "NOT PERFORMED",
+    "final_sketch_test": "See runtime-test-report.md and evidence subfolders for recorded final runs",
+    "settings_isolation": "Processing preferences and sketchbook under .tools; no global install"
+  },
+  "media_tools": {
+    "ffmpeg": "7.1.1, /opt/homebrew/bin/ffmpeg",
+    "say": "/usr/bin/say; English and Chinese voices present",
+    "screen_record": "/usr/sbin/screencapture supports -v -Vseconds -R x,y,w,h; screen permission may be required"
+  }
+}

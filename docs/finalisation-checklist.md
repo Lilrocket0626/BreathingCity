@@ -1,45 +1,34 @@
-# Breathing City Finalisation Checklist
+# Handover and submission checklist
 
-This checklist separates completed materials from evidence that must be genuine.
+Use this alongside the current README and actual runtime report. Checkmarks here indicate delivered source/documentation, not unperformed human testing or institutional acceptance.
 
-## Completed
+## Engineering material
 
-- [x] Original Processing sketch with extensive comments
-- [x] Calibrated microphone data pipeline
-- [x] Responsive skyline, harbour, particles and breath rings
-- [x] Mouse-simulation fallback
-- [x] Live data panel and circular history graph
-- [x] README with setup, controls, structure and troubleshooting
-- [x] Git commit history showing staged development
-- [x] Initial concept map
-- [x] Final concept map
-- [x] Technical data-flow diagram
-- [x] Project-journal framework and factual development entries
-- [x] Test log and peer-feedback form
-- [x] Three-minute explainer script and shot list
-- [x] Critical-reflection draft and APA-style reference list
-- [x] Approximately 200-word GenAI declaration
-- [x] Text prompt log
+- [x] Preserved baseline code/documents with checksum manifest.
+- [x] Revised Processing Java sketch split into coherent tabs, with English code comments.
+- [x] Real microphone path plus labelled simulation paths; calibration and tuning controls.
+- [x] Procedural Sydney landmark scene and bounded visual effects.
+- [x] English code walkthrough, Chinese study guide and three-minute video narration/shot list.
+- [x] Current-session journal, issue log and honest AI/source attribution.
+- [x] Public technical sources verified and formatted in APA 7.
+- [x] Reflection working document with explicit course/peer/student evidence gaps.
 
-## Must be completed with genuine evidence before submission
+## Check against generated evidence, not this list
 
-- [ ] Replace `TXX` with the real tutorial number in every filename and document
-- [ ] Run the sketch in Processing 4 with the official Sound library
-- [ ] Record actual noise-floor and soft/strong-breath values in `test-log.csv`
-- [ ] Add genuine calibration, calm, soft-breath, strong-breath and simulation screenshots to `docs/evidence/`
-- [ ] Ask one peer to test the prototype and complete `peer-feedback-form.md`
-- [ ] Make at least one evidence-based revision and commit it to Git
-- [ ] Update the reflection with the real test result and peer feedback
-- [ ] Add real ChatGPT screenshots and the tutor's written AI permission to the reflection appendix
-- [ ] Record and edit the narrated video using genuine prototype footage
-- [ ] Export the video as 1080p MP4 under 300 MB
-- [ ] Create a public GitHub repository and push this project
-- [ ] Open the public repository link in a private/incognito window to verify access
-- [ ] Submit the MP4, reflection PDF and public GitHub URL to Canvas
-- [ ] Check that the Turnitin result is readable and not a blue zero caused by a broken PDF
+- [x] Actual runtime report names exact Processing/Sound/runtime/OS versions and reports real command outcomes.
+- [x] Actual screenshots and video identify their input mode and any synthetic narration.
+- [x] Fresh-copy launch follows the README and records what was tested.
+- [x] Numerical tests and GUI endurance tests are reported separately.
+- [x] Final ZIP retains all required sketch tabs and documentation.
 
-## Recommended filenames
+## User-specific evidence still required
 
-- `Huang_Jiangpeng_14559823_TXX_BreathingCity.mp4`
-- `Huang_Jiangpeng_14559823_TXX_BreathingCity_Reflection.pdf`
-- GitHub repository: `BreathingCity_A2`
+- [ ] Physical microphone test on the intended demonstration setup: calibration, gentle, strong and recovery.
+- [ ] Student's own parameter/code revision with before/after measurements and understanding.
+- [ ] Actual peer feedback, response to it and a retest.
+- [ ] At least five real course sources, read and integrated into the reflection with APA 7 citations.
+- [ ] Personal reflection rewritten from actual experience; remove every placeholder.
+- [ ] AI-use declaration checked against the real assistance and applicable course rules.
+- [ ] Student identity, assessment filename and any submission limits checked against the actual brief.
+
+A public repository, institutional upload, narrated student voice or additional file formats should follow the actual course brief. Earlier inherited documents named unverified submission rules and identifiers; those are not assumed here.

@@ -1,0 +1,13 @@
+{
+  "duration_animation_seconds": 600.0137329101562,
+  "frames": 34825,
+  "mean_fps_after_warmup": 58.21405029296875,
+  "min_fps_after_warmup": 22.743059158325195,
+  "fps_mean_seconds_30_90": 57.4575,
+  "fps_mean_seconds_510_570": 57.79391666666667,
+  "heap_sampled_min_mb": 24.5,
+  "heap_sampled_max_mb": 258.56,
+  "max_particles": 180,
+  "max_ripples": 3,
+  "scope": "Native elapsed-time render, synthetic input, no per-frame export; R/N guided-cancel fix happened after this run started; rendering/envelope/effects unchanged."
+}

@@ -1,0 +1,38 @@
+Date: 2026-10-01
+Executed by: Codex during AI-assisted revision
+Runtime: Processing 4.5.7, bundled Temurin 17.0.20.1+1, Sound 2.4.0 on classpath
+Scope: actual compiled keyPressed() callback; microphone-opening adapter stubbed
+No GUI was opened for these callback tests. No physical keyboard input was sent.
+
+Observed defect before fix:
+Pressing N through the callback changed/restarted the input adapter but kept
+guidedTest=true and the previous graph. A new input calibration could therefore
+be displayed with the previous trial's timed prompt/phase.
+Before-fix execution exit: 1 (expected failing regression assertion)
+Before-fix console: control-test-before-fix.txt
+Before-fix main SHA-256:
+7ae17ceb0ab3e9337ee5c2ad6cab813f07e84b4878e79e90dcdf99b23e0833d4
+Before-fix compiled sketch: .tools/fresh-copy-build
+
+Fix made in production by the parent agent:
+- N cancels guidedTest and clears the previous graph before changing input.
+- R in microphone mode cancels a guided trial before manual recalibration.
+
+After-fix execution exit: 0
+After-fix console: control-test-after-fix.txt
+Result: 10 callback cases, 1017 assertions passed.
+After-fix main SHA-256:
+9a9ef01f263b851ade5b414657daf2877d6d6bf167e1f141a84418a40ec2a87d
+After-fix compiled sketch: .tools/fresh-copy-build-final
+
+Exact commands from workspace root:
+.tools/processing/Processing.app/Contents/app/resources/jdk/bin/javac -cp '.tools/fresh-copy-build-final:.tools/processing/Processing.app/Contents/app/resources/core/library/*:.tools/sketchbook/libraries/sound/library/*' -d /private/tmp/breathingcity-test-classes BreathingCity_A2/tests/ControlStateTest.java
+.tools/processing/Processing.app/Contents/app/resources/jdk/bin/java -Djava.awt.headless=true -cp '/private/tmp/breathingcity-test-classes:.tools/fresh-copy-build-final:.tools/processing/Processing.app/Contents/app/resources/core/library/*:.tools/sketchbook/libraries/sound/library/*' ControlStateTest
+
+The before-fix run used the same commands with fresh-copy-build instead of
+fresh-copy-build-final. The additional R cancellation assertion was appended
+after the original N failure was recorded, then both paths passed on final code.
+
+Limits:
+No claims are made here about actual hardware opening, permission, key focus,
+OS event dispatch, visual rendering, latency or microphone audio.

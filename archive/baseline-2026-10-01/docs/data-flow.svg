@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07122e"/>
+      <stop offset="1" stop-color="#123e57"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-opacity="0.25"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#8ecae6"/></marker>
+    <style>
+      .node { fill:#f3fbff; stroke:#56b4d3; stroke-width:4; filter:url(#shadow); }
+      .process { fill:#dff6f2; stroke:#34a89b; stroke-width:4; filter:url(#shadow); }
+      .core { fill:#ffd166; stroke:#f5a623; stroke-width:5; filter:url(#shadow); }
+      .label { font-family:Arial,sans-serif; font-size:27px; font-weight:700; fill:#10283a; text-anchor:middle; dominant-baseline:middle; }
+      .small { font-family:Arial,sans-serif; font-size:19px; fill:#365568; text-anchor:middle; }
+      .line { stroke:#8ecae6; stroke-width:5; fill:none; marker-end:url(#arrow); }
+      .title { font-family:Arial,sans-serif; font-size:35px; font-weight:700; fill:#d9f2ff; }
+      .subtitle { font-family:Arial,sans-serif; font-size:22px; fill:#b9dbea; }
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <text x="70" y="62" class="title">FROM BREATH TO CITY</text>
+  <text x="70" y="100" class="subtitle">One processed value creates several coordinated visual responses</text>
+
+  <path class="line" d="M800 230 L800 292"/>
+  <path class="line" d="M800 430 L800 492"/>
+  <path class="line" d="M800 630 L800 690"/>
+  <path class="line" d="M800 820 C670 845 420 850 280 870"/>
+  <path class="line" d="M800 820 C745 850 690 860 640 870"/>
+  <path class="line" d="M800 820 C855 850 910 860 960 870"/>
+  <path class="line" d="M800 820 C930 845 1180 850 1320 870"/>
+
+  <rect class="node" x="605" y="130" width="390" height="100" rx="26"/>
+  <text class="label" x="800" y="170">MICROPHONE INPUT</text>
+  <text class="small" x="800" y="205">AudioIn + Amplitude.analyze()</text>
+
+  <rect class="process" x="470" y="295" width="660" height="135" rx="28"/>
+  <text class="label" x="800" y="335">PROCESS THE SIGNAL</text>
+  <text class="small" x="800" y="375">subtract room noise → map and constrain</text>
+  <text class="small" x="800" y="405">attack/release smoothing → stable intensity</text>
+
+  <rect class="core" x="615" y="495" width="370" height="135" rx="30"/>
+  <text class="label" x="800" y="540">INTENSITY</text>
+  <text class="small" x="800" y="582">shared value from 0.0 to 1.0</text>
+
+  <rect class="process" x="485" y="695" width="630" height="125" rx="28"/>
+  <text class="label" x="800" y="735">INTERPRET THE VALUE</text>
+  <text class="small" x="800" y="775">continuous control + threshold event detection</text>
+
+  <rect class="node" x="105" y="870" width="300" height="90" rx="24"/>
+  <text class="label" x="255" y="905">CITY LIGHT</text>
+  <text class="small" x="255" y="940">colour + brightness</text>
+
+  <rect class="node" x="485" y="870" width="300" height="90" rx="24"/>
+  <text class="label" x="635" y="905">PARTICLES</text>
+  <text class="small" x="635" y="940">rate + movement</text>
+
+  <rect class="node" x="865" y="870" width="300" height="90" rx="24"/>
+  <text class="label" x="1015" y="905">BREATH WAVE</text>
+  <text class="small" x="1015" y="940">threshold + cooldown</text>
+
+  <rect class="node" x="1245" y="870" width="300" height="90" rx="24"/>
+  <text class="label" x="1395" y="905">LIVE GRAPH</text>
+  <text class="small" x="1395" y="940">circular history array</text>
+</svg>

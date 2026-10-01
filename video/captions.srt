@@ -1,0 +1,139 @@
+1
+00:00:00,500 --> 00:00:05,814
+Breathing City is a Processing artwork that connects sound intensity to a Sydney Harbour
+
+2
+00:00:05,814 --> 00:00:11,129
+night scene. The bridge, opera-house shells, buildings, water and particles are drawn with
+code.
+
+3
+00:00:11,129 --> 00:00:16,443
+The intended interaction uses a microphone: gentle input produces a quieter city, while
+stronger
+
+4
+00:00:16,443 --> 00:00:19,100
+input produces brighter light and more motion.
+
+5
+00:00:20,500 --> 00:00:24,640
+This demonstration uses labelled synthetic input in the running sketch.
+
+6
+00:00:24,640 --> 00:00:30,437
+It shows calm, gentle, strong and recovery states, but it is not evidence of
+
+7
+00:00:30,437 --> 00:00:34,991
+a person breathing into a microphone. Mouse simulation is also available.
+
+8
+00:00:34,991 --> 00:00:38,718
+The real microphone path uses the Processing Sound library.
+
+9
+00:00:38,718 --> 00:00:44,100
+It responds to loudness, so speech and other sounds can also activate it.
+
+10
+00:00:45,500 --> 00:00:51,053
+The first code section is SignalEnvelope. AudioIn captures the selected input channel.
+
+11
+00:00:51,053 --> 00:00:57,531
+Amplitude calculates the root mean square of each audio block and returns a level.
+
+12
+00:00:57,531 --> 00:01:04,010
+During three seconds of calibration, the envelope collects room-noise readings and uses
+their ninetieth
+
+13
+00:01:04,010 --> 00:01:09,100
+percentile. Staying quiet is important: sustained noise will raise this estimate.
+
+14
+00:01:10,500 --> 00:01:15,435
+The opening threshold adds an adjustable margin to the noise floor.
+
+15
+00:01:15,435 --> 00:01:19,922
+A lower closing threshold creates hysteresis, reducing rapid on-off switching.
+
+16
+00:01:19,922 --> 00:01:26,203
+The signal above the opening threshold is multiplied by sensitivity and limited to zero
+
+17
+00:01:26,203 --> 00:01:27,100
+through one.
+
+18
+00:01:28,500 --> 00:01:34,781
+Finally, exponential smoothing uses elapsed time. Its coefficient is one minus e to the
+
+19
+00:01:34,781 --> 00:01:41,062
+power of negative delta-time divided by tau. Attack takes a shorter time constant than
+
+20
+00:01:41,062 --> 00:01:45,100
+release, so the city responds quickly and settles gradually.
+
+21
+00:01:46,500 --> 00:01:52,916
+The second section is CityScene. One smoothed energy value controls several visible
+ranges.
+
+22
+00:01:52,916 --> 00:01:57,358
+Colour interpolation brightens windows, bridge lights and opera-house shells.
+
+23
+00:01:57,358 --> 00:02:01,306
+Wave phase accumulates speed multiplied by elapsed time.
+
+24
+00:02:01,306 --> 00:02:05,255
+Stronger input increases both wave speed and amplitude.
+
+25
+00:02:05,255 --> 00:02:10,190
+Integrating phase avoids a sudden position jump when speed changes.
+
+26
+00:02:10,190 --> 00:02:17,100
+This shared input makes the response coherent while each visual keeps its own scale.
+
+27
+00:02:18,500 --> 00:02:25,286
+The third section manages particles and ripples. Emission rate increases with energy, but
+particle
+
+28
+00:02:25,286 --> 00:02:32,073
+count never exceeds one hundred and eighty. Ripples have a separate limit of eight.
+
+29
+00:02:32,073 --> 00:02:36,436
+Each object expires, and backward removal avoids skipped entries.
+
+30
+00:02:36,436 --> 00:02:43,222
+Ripple strength can rise after creation, preserving the difference between gentle and
+strong input
+
+31
+00:02:43,222 --> 00:02:47,100
+instead of freezing strength near the trigger threshold.
+
+32
+00:02:48,500 --> 00:02:53,588
+The source, parameter guide, before-and-after files and test records accompany the
+project.
+
+33
+00:02:53,588 --> 00:02:59,100
+Hardware-specific microphone checks and real peer feedback remain separate from this
+simulated demonstration.

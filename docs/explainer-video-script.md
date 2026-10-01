@@ -1,61 +1,62 @@
-# Breathing City Explainer Video Script and Shot List
+# Three-minute explainer: narration and shot list
 
-Target duration: 2 minutes 50 seconds to 3 minutes 10 seconds. Record at 1080p and keep the finished MP4 below 300 MB.
+This script describes the actual implementation. It does not claim the student personally authored or tested each part. The produced demonstration must label synthetic input and synthetic narration. For a final student submission, replace narration with the student's own verified explanation if required by the course.
 
-## 0:00-0:25 Project overview
+## Narration (377 words; produced video timing)
 
-**Screen:** Start with the running artwork in a calm state, then breathe softly and strongly.
+Output: [BreathingCity_3min_Explainer.mp4](../video/BreathingCity_3min_Explainer.mp4), 180 seconds, 1920×1080, approximately 7.7 MiB. The narration is synthetic English speech; visual interaction footage is from the actual running sketch with labelled synthetic RMS input. [Narration text](../video/narration.txt) and [captions](../video/captions.srt) are retained.
 
-**Narration:**
+### 0:00–0:20 — Project
 
-Hi, I am Jiangpeng Huang, and this is *Breathing City*. It is an interactive Processing artwork that makes invisible breath visible through a Sydney-inspired night city. The laptop microphone measures sound intensity. A soft breath creates gentle light and motion, while a stronger breath warms the sky, brightens windows, raises harbour waves, increases particles and releases an expanding breath ring.
+Breathing City is a Processing artwork that connects sound intensity to a Sydney Harbour night scene. The bridge, opera-house shells, buildings, water and particles are drawn with code. The intended interaction uses a microphone: gentle input produces a quieter city, while stronger input produces brighter light and more motion.
 
-## 0:25-0:55 Core features
+### 0:20–0:45 — Core functions and evidence boundary
 
-**Screen:** Show calibration, the live data panel, a soft breath, a strong breath, and mouse simulation.
+This demonstration uses labelled synthetic input in the running sketch. It shows calm, gentle, strong and recovery states, but it is not evidence of a person breathing into a microphone. Mouse simulation is also available. The real microphone path uses the Processing Sound library. It responds to loudness, so speech and other sounds can also activate it.
 
-**Narration:**
+### 0:45–1:10 — Code focus 1a: input and calibration
 
-The main feature is not a single animation but a connected response system. When the sketch starts, it spends three seconds measuring room noise. The live panel then shows the raw amplitude, noise floor, mapped intensity and recent history. Most visuals respond continuously to intensity. A breath ring responds only when a new breath crosses a threshold. If microphone access fails, pressing M activates mouse simulation, which lets me test the complete visual system independently from the audio device.
+The first code section is SignalEnvelope. AudioIn captures the selected input channel. Amplitude calculates the root mean square of each audio block and returns a level. During three seconds of calibration, the envelope collects room-noise readings and uses their ninetieth percentile. Staying quiet is important: sustained noise will raise this estimate.
 
-## 0:55-1:45 Code focus one: signal pipeline
+### 1:10–1:28 — Code focus 1b: gate and gain
 
-**Screen:** Zoom into `BreathInput.begin()` and `BreathInput.update()`. Highlight the relevant lines as they are explained.
+The opening threshold adds an adjustable margin to the noise floor. A lower closing threshold creates hysteresis, reducing rapid on-off switching. The signal above the opening threshold is multiplied by sensitivity and limited to zero through one.
 
-**Narration:**
+### 1:28–1:46 — Code focus 1c: smoothing
 
-The first important code section is the `BreathInput` class. `AudioIn` opens microphone channel zero, and `Amplitude` analyses its level each frame. Raw sound is unreliable because every room has background noise. During calibration, I add the samples, count them, calculate their average, and multiply it by 1.35 to create a noise floor. After calibration, I subtract that floor from the live value. `map()` converts the useful range into zero to one, while `constrain()` prevents extreme values from exceeding that range. Finally, I use a faster interpolation rate when intensity rises and a slower rate when it falls. This attack-and-release smoothing keeps the response immediate without visible flicker.
+Finally, exponential smoothing uses elapsed time. Its coefficient is one minus e to the power of negative delta-time divided by tau. Attack takes a shorter time constant than release, so the city responds quickly and settles gradually.
 
-## 1:45-2:20 Code focus two: event detection
+### 1:46–2:18 — Code focus 2: mapping energy into the city
 
-**Screen:** Show `triggerBreathWave()` and then replay a ring appearing.
+The second section is CityScene. One smoothed energy value controls several visible ranges. Colour interpolation brightens windows, bridge lights and opera-house shells. Wave phase accumulates speed multiplied by elapsed time. Stronger input increases both wave speed and amplitude. Integrating phase avoids a sudden position jump when speed changes. This shared input makes the response coherent while each visual keeps its own scale.
 
-**Narration:**
+### 2:18–2:48 — Code focus 3: bounded effects
 
-The second section shows the difference between continuous data and an event. If I created a ring whenever intensity was above the threshold, the program would add one every frame. Instead, `previousIntensity` stores the earlier value. A Boolean condition checks whether the signal has just crossed upward over the threshold, and a second condition checks a 42-frame cooldown. Only when both are true is one `BreathWave` object added. This uses state to detect change over time.
+The third section manages particles and ripples. Emission rate increases with energy, but particle count never exceeds one hundred and eighty. Ripples have a separate limit of eight. Each object expires, and backward removal avoids skipped entries. Ripple strength can rise after creation, preserving the difference between gentle and strong input instead of freezing strength near the trigger threshold.
 
-## 2:20-2:50 Code focus three: particles and objects
+### 2:48–3:00 — Close
 
-**Screen:** Show `emitParticles()`, `updateAndDrawParticles()`, and the `BreathParticle` class.
+The source, parameter guide, before-and-after files and test records accompany the project. Hardware-specific microphone checks and real peer feedback remain separate from this simulated demonstration.
 
-**Narration:**
+## Shot list and exact code sections
 
-Particles are stored in an `ArrayList`. Each object manages its own position, velocity, lifetime, colour and Perlin-noise drift. The amount created depends on intensity, but `MAX_PARTICLES` prevents unlimited growth. I iterate backwards when deleting expired particles so that removing one item does not cause the next item to be skipped. This structure lets the main sketch manage the collection while each particle manages its own behaviour.
+| Time | Picture | Code to show | Purpose |
+|---|---|---|---|
+| 0:00–0:20 | Side-by-side actual runtime stills, labelled calm/strong | Title only | Establish the project and Sydney landmarks |
+| 0:20–0:45 | Live panel; labelled synthetic sequence | Input-mode label must remain visible | Explain modes and avoid presenting synthetic input as microphone evidence |
+| 0:45–1:10 | Presentation cards with exact input/calibration code excerpts | `BreathInput.begin()` and `SignalEnvelope.update()` calibration | RMS → room-noise estimate |
+| 1:10–1:28 | Gate-code presentation card | `openingThreshold()`, `closingThreshold()`, `update()` | Gate state → bounded target |
+| 1:28–1:46 | Smoothing-code presentation card | `SignalEnvelope.smooth()` | Elapsed-time attack/release → energy |
+| 1:46–2:18 | Water and lighting code cards | `CityScene.pde`: `display()`, `drawHarbour()`, `drawShell()` | Connect a numerical change to lighting, wave amplitude and speed |
+| 2:18–2:48 | Emission, expiry and ripple code cards | `VisualEffects.pde`: emission/update/removal and `BreathWave.updateAndDraw()` | Explain bounds, lifetime, event strength and stability |
+| 2:48–3:00 | Evidence and disclosure card | No new code | Point to reviewable evidence and remaining tests |
 
-## 2:50-3:05 Conclusion
+## Recording/review checklist
 
-**Screen:** Return to a clean full-screen interaction and fade out on the title.
-
-**Narration:**
-
-Through this prototype, I learned to treat microphone input as data that must be calibrated, interpreted and tested, rather than as a direct trigger. The code connects data processing, state, conditions and object-oriented animation in one traceable system. Thank you.
-
-## Recording checklist
-
-- Replace every planned shot with genuine footage from the running Processing sketch.
-- Keep code large enough to read; zoom in rather than showing the whole file.
-- Record in a quiet room and use headphones.
-- Speak naturally and do not rush the code explanation.
-- Remove long pauses and failed takes.
-- Export MP4 at 1080p; use HandBrake Fast 1080p30 if the file exceeds 300 MB.
-- Name the video `Huang_Jiangpeng_14559823_TXX_BreathingCity.mp4`, replacing `TXX` with the real tutorial number.
+- Use captures of the running Processing application, not an invented rendering presented as a screenshot.
+- Keep the mode label visible whenever input behaviour is shown.
+- Display code at a readable size and use only the three sections above; do not scroll through the entire program.
+- When the video uses a still image, label it as a still rather than implying live movement.
+- Identify synthetic narration in the video description/credits; do not imply it is the student's recorded voice.
+- The exact runtime/library versions and test results come from the README and runtime report.
+- Retain the narration text, captions and source capture provenance with the MP4.

@@ -1,0 +1,14 @@
+PASS M microphone to mouse clears previous state
+PASS M mouse to microphone reconnects and calibrates
+PASS A starts a fresh synthetic demo
+PASS R restarts demo calibration
+PASS bracket keys tune and bound threshold margin
+PASS gain aliases bound sensitivity; zero resets tuning
+PASS D and H toggle panels
+PASS G refuses unavailable microphone
+PASS G starts calibration and correct guided stages
+Exception in thread "main" java.lang.AssertionError: device change must cancel previous guided trial
+	at ControlStateTest.check(ControlStateTest.java:159)
+	at ControlStateTest.deviceChange(ControlStateTest.java:134)
+	at ControlStateTest.run(ControlStateTest.java:162)
+	at ControlStateTest.main(ControlStateTest.java:22)

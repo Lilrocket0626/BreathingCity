@@ -1,0 +1,74 @@
+{
+  "build_exit_code": 0,
+  "run_exit_code": 0,
+  "source_unchanged_after_run": true,
+  "sketch_file_count": 5,
+  "processing": "4.5.7",
+  "sound": "2.4.0",
+  "run_seconds": 24,
+  "runtime_report": {
+    "max_ripples": 3,
+    "animation_seconds": 24.005123138427734,
+    "os": "Mac OS X 26.6.2",
+    "rendered_frames": 1370,
+    "max_particles": 180,
+    "min_fps_after_warmup": 36.878849029541016,
+    "mode": "AUTO DEMO / SYNTHETIC RMS",
+    "evidence_limit": "Simulation; not evidence of human breath input",
+    "java": "17.0.20.1",
+    "microphone_error": "",
+    "fixed_animation_clock": false,
+    "project_version": "2.0",
+    "mean_fps_after_warmup": 57.63636016845703,
+    "device": "System default",
+    "microphone_opened": false
+  },
+  "stage_samples": {
+    "calm": {
+      "seconds": "5.004",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "0.00000",
+      "particles": "0",
+      "ripples": "0",
+      "fps": "59.26"
+    },
+    "gentle": {
+      "seconds": "8.014",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "0.22538",
+      "particles": "64",
+      "ripples": "1",
+      "fps": "57.98"
+    },
+    "strong": {
+      "seconds": "13.014",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "1.00000",
+      "particles": "178",
+      "ripples": "3",
+      "fps": "53.33"
+    },
+    "recovery": {
+      "seconds": "21.009",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "0.00000",
+      "particles": "0",
+      "ripples": "0",
+      "fps": "59.47"
+    }
+  },
+  "confirmed": [
+    "Fresh location contains all five sketch tabs",
+    "Processing Java-mode compilation succeeded",
+    "Native graphical run completed with five actual PNG screenshots and telemetry",
+    "No missing image, font, audio or data assets",
+    "Strong screenshot visually inspected; visible bridge, opera house, particles and ripples"
+  ],
+  "limits": [
+    "Same host and already installed isolated Sound library; not a clean OS installation test",
+    "AUTO DEMO / SYNTHETIC RMS; no microphone used in this reproduction run",
+    "No GUI keyboard presses tested",
+    "Concurrent separate soak test adds background workload, so FPS values are scenario-specific"
+  ],
+  "infrastructure_note": "Initial sandboxed native Processing launch aborted (exit 134). Authorized native launch then compiled and ran successfully. A pre-existing dedicated temporary output folder was removed through Processing --force."
+}

@@ -1,15 +1,22 @@
-# Declaration of Generative AI Use
+# AI assistance declaration — factual record and editable submission text
 
-I used OpenAI's ChatGPT extensively while developing *Breathing City*. My tutor gave me written permission to use generative AI for all components of this assessment. I asked ChatGPT to help transform my A1 concept into a Processing prototype; generate and revise Processing code; explain code libraries and functions; organise the Git repository; draft code comments, the README, project journal, concept maps, test documents, reflection and explainer script; and improve English expression and document layout. I also used it to identify technical issues, including moving `smooth(8)` into Processing's `settings()` function. The main advantage was speed: ChatGPT created a coherent starting architecture and provided explanations that connected microphone data, calibration, mapping, smoothing, conditions, state, classes and particle behaviour. The disadvantages were that generated work could appear convincing without having been tested, and I could mistake readable explanations for my own understanding. To manage these limitations, I will run the sketch in Processing, retain genuine screenshots and measurements, test it with a peer, check technical claims against the Processing reference, and practise explaining the selected code line by line. I reviewed the outputs and remain responsible for the accuracy, acknowledgement and final submission. Appendix evidence includes screenshots of relevant prompts and outputs, a prompt log, and my tutor's written permission.
+## Verified record for this revision
 
-Approximate word count: 202 words.
+The user described the supplied starting code as generated with ChatGPT. Codex then assisted on 1 October 2026 with reviewing and revising the code, researching official Processing APIs, preparing English comments and documentation, creating reconstructed concept maps, planning/producing demonstration materials and running the recorded technical checks. The actual test results are stated separately in the runtime report. A simulated input sequence is not evidence of a person breathing into a microphone.
 
-## Evidence that must accompany this declaration
+The user has stated an intention to participate in testing and modification and to disclose AI and other help. Their later tests, personal learning, peer feedback and course readings cannot be inferred from that intention. Earlier draft statements about tutor permission, student identity, exact past AI versions and earlier dated work are unverified; the current documentation makes no such claims.
 
-1. Real screenshots from this ChatGPT conversation showing the prompt and output together.
-2. The tutor's written permission allowing the broader AI use described above.
-3. `ai-prompt-log.md` as a searchable text record.
+## Editable first-person declaration
 
-## Reference
+Use this only after checking every sentence against what actually happened:
 
-OpenAI. (2026). *ChatGPT* (September 17 version) [Large language model]. https://chatgpt.com/
+> I used generative AI assistance when developing *Breathing City*. The starting sketch was AI-generated, and Codex helped review and revise the Processing code, prepare comments and documentation, check official API references, produce concept diagrams, and create demonstration material. I have retained the starting version, change records and test evidence so that the assistance is traceable. The generated demonstration uses **[insert the actual input mode]**, and its narration is **[synthetic / my own recording]**. My own contributions were **[specific completed decisions, testing, changes and interpretation]**. I checked **[actual sections checked]** by **[actual method]**. Remaining limitations are **[actual limitations]**. I have identified course sources and peer feedback separately from technical references and AI output. I am responsible for reviewing the final work and complying with the course's AI and attribution requirements.
+
+Do not claim written tutor permission unless that permission exists and its scope is verified. Add the precise AI product/model/version shown in the actual interface or account records if the course requires that field; do not invent a dated model release.
+
+## Evidence to keep
+
+- Actual prompts and outputs, with private information removed where appropriate.
+- [AI prompt log](ai-prompt-log.md), code baseline and final code.
+- The student's own annotated explanations or recordings and actual modifications.
+- Applicable course AI policy or permission, if required and available.

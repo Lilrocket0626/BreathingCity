@@ -1,567 +1,293 @@
-// Breathing City
-// Student: Jiangpeng Huang
-// 52685 Creative Coding - Assessment 2
-//
-// Breathing City turns live microphone amplitude into a responsive night city.
-// The project draws every visual element with code; it does not require image assets.
-//
-// Controls
-// M     toggle microphone / mouse simulation mode
-// R     recalibrate the microphone noise floor
-// D     show or hide the data panel
-// H     show or hide the help panel
-// S     save a PNG screenshot
-
+// Breathing City 2.0 | Sydney Harbour responds to sound intensity.
+// Open THIS sketch in Processing Java mode with official Sound 2.4.0 installed.
+// Original baseline is preserved under archive/baseline-2026-10-01.
+// Revision and documentation are AI-assisted; see docs/genai-declaration.md.
 import processing.sound.*;
+import java.io.File;
+import java.io.PrintWriter;
 
-final int BUILDING_COUNT = 24;
-final int STAR_COUNT = 70;
-final int MAX_PARTICLES = 180;
-final float BREATH_TRIGGER = 0.18;
-final int WAVE_COOLDOWN_FRAMES = 42;
+final String PROJECT_VERSION = "2.0";
+final int MICROPHONE = 0, MOUSE = 1, DEMO = 2;
+BreathInput input;
+CityScene city;
+VisualEffects effects;
+LevelGraph graph;
+int mode = MICROPHONE;
+boolean debugVisible = true, helpVisible = true;
+boolean guidedTest = false;
+float guidedStarted = 0;
+float intensity = 0, elapsed = 0, demoTime = 0;
+long lastNanos;
+String notice = "";
+float noticeUntil = 0;
 
-Building[] buildings = new Building[BUILDING_COUNT];
-Star[] stars = new Star[STAR_COUNT];
-ArrayList<BreathParticle> particles = new ArrayList<BreathParticle>();
-ArrayList<BreathWave> waves = new ArrayList<BreathWave>();
-
-BreathInput breathInput;
-LevelGraph levelGraph;
-
-boolean simulationMode = false;
-boolean debugVisible = true;
-boolean helpVisible = true;
-float intensity = 0;
-float previousIntensity = 0;
-int lastWaveFrame = -WAVE_COOLDOWN_FRAMES;
+// Optional, documented developer capture controls. Normal users need no env vars.
+String runDirectory;
+boolean captureFrames;
+float durationLimit;
+PrintWriter telemetry;
+int captureIndex = 0, nextTelemetry = 0, maxParticlesSeen = 0, maxRipplesSeen = 0;
+float fpsSum = 0, minFps = Float.MAX_VALUE;
+int fpsSamples = 0;
+boolean finishedRun = false;
 
 void settings() {
   size(1280, 720);
-  // Processing requires the smoothing level to be selected in settings().
-  smooth(8);
+  pixelDensity(1); // Consistent screenshot size on Retina and ordinary displays.
+  smooth(4);
 }
 
 void setup() {
+  surface.setTitle("Breathing City | Sydney Harbour | v" + PROJECT_VERSION);
   frameRate(60);
-  surface.setTitle("Breathing City - Jiangpeng Huang");
-
-  // A fixed seed produces the same city on every run, making tests repeatable.
-  randomSeed(52685);
-  noiseSeed(52685);
-  createSkyline();
-  createStars();
-
-  breathInput = new BreathInput(this);
-  breathInput.begin();
-  levelGraph = new LevelGraph(220);
+  textFont(createFont("SansSerif", 16)); // Java logical font; no font asset needed.
+  randomSeed(52685); noiseSeed(52685);
+  input = new BreathInput(this);
+  city = new CityScene(); effects = new VisualEffects(); graph = new LevelGraph(240);
+  runDirectory = System.getenv("BC_RUN_DIR");
+  captureFrames = "1".equals(System.getenv("BC_CAPTURE_FRAMES"));
+  durationLimit = positiveEnvironmentNumber("BC_DURATION", 0);
+  if (runDirectory != null && runDirectory.length() > 0) {
+    new File(runDirectory).mkdirs();
+    telemetry = createWriter(runDirectory + "/telemetry.csv");
+    telemetry.println("seconds,mode,raw_rms,noise_floor,opening_threshold,sensitivity,target,intensity,particles,ripples,fps,heap_used_mb,guided_phase");
+    if (captureFrames) { new File(runDirectory + "/frames").mkdirs(); frameRate(30); }
+  }
+  String requestedMode = System.getenv("BC_MODE");
+  switchMode("demo".equals(requestedMode) ? DEMO : "mouse".equals(requestedMode) ? MOUSE : MICROPHONE);
+  if ("1".equals(System.getenv("BC_GUIDED_TEST"))) startGuidedTest();
+  lastNanos = System.nanoTime();
 }
 
 void draw() {
-  // Mouse simulation is a deliberate fallback for computers that block microphone access.
-  if (simulationMode) {
-    intensity = lerp(intensity, constrain(map(mouseX, 0, width, 0, 1), 0, 1), 0.10);
+  long now = System.nanoTime();
+  float realDt = (now - lastNanos) / 1000000000.0f;
+  lastNanos = now;
+  // Clamp pauses (window dragging, debugger) so one frame cannot launch a burst.
+  float dt = constrain(realDt, 0.001, 0.1);
+  // Captured frames use an explicit 30 FPS animation clock, not live mic timing.
+  if (captureFrames && mode == DEMO) dt = 1.0 / 30.0;
+  elapsed += dt;
+  if (mode == MICROPHONE) {
+    intensity = input.update(dt);
+  } else if (mode == MOUSE) {
+    intensity = SignalEnvelope.smooth(intensity, constrain(mouseX / float(width), 0, 1), dt);
   } else {
-    intensity = breathInput.update();
+    demoTime += dt;
+    if (demoTime >= 24) { demoTime -= 24; input.envelope.startCalibration(); }
+    intensity = input.envelope.update(demoSample(demoTime), dt);
   }
-
-  levelGraph.add(intensity);
-  triggerBreathWave();
-  emitParticles();
-
-  drawSkyGradient(intensity);
-  drawStars(intensity);
-  drawMoon(intensity);
-
-  for (int i = 0; i < buildings.length; i++) {
-    buildings[i].display(intensity);
-  }
-
-  drawHarbour(intensity);
-  updateAndDrawWaves();
-  updateAndDrawParticles();
+  graph.add(intensity);
+  city.display(intensity, dt);
+  effects.updateAndDraw(intensity, dt);
   drawInterface();
-
-  previousIntensity = intensity;
-}
-
-void createSkyline() {
-  float x = -20;
-
-  for (int i = 0; i < buildings.length; i++) {
-    float buildingWidth = random(45, 85);
-    float buildingHeight = random(120, 330);
-    buildings[i] = new Building(x, height - 125, buildingWidth, buildingHeight, i);
-    x += buildingWidth - 4;
+  recordEvidence();
+  if (durationLimit > 0 && elapsed >= durationLimit) {
+    finishEvidence(); input.stop(); exit();
   }
 }
 
-void createStars() {
-  for (int i = 0; i < stars.length; i++) {
-    stars[i] = new Star(random(width), random(height * 0.58), random(1, 3.2));
-  }
+// Synthetic input is ONLY a reproducible visual / signal-processing demonstration.
+// It exercises calibration, gentle input, strong input and release without audio.
+float demoSample(float t) {
+  float room = 0.002 + 0.00015 * sin(t * 8);
+  if (t < 6 || t >= 16) return room;
+  if (t < 10) return room + 0.015 + 0.002 * sin(t * 4);
+  return room + 0.074 + 0.009 * sin(t * 3);
 }
 
-// A rising-edge test creates one wave when the intensity crosses the threshold.
-// The cooldown prevents a noisy signal from creating dozens of waves per second.
-void triggerBreathWave() {
-  boolean crossedThreshold = intensity >= BREATH_TRIGGER && previousIntensity < BREATH_TRIGGER;
-  boolean cooldownFinished = frameCount - lastWaveFrame >= WAVE_COOLDOWN_FRAMES;
-
-  if (crossedThreshold && cooldownFinished) {
-    waves.add(new BreathWave(width * 0.5, height - 118, intensity));
-    lastWaveFrame = frameCount;
-  }
-}
-
-void emitParticles() {
-  if (intensity < 0.035 || particles.size() >= MAX_PARTICLES) {
-    return;
-  }
-
-  int particlesPerFrame = 1 + int(intensity * 5);
-  for (int i = 0; i < particlesPerFrame && particles.size() < MAX_PARTICLES; i++) {
-    float startX = random(width * 0.18, width * 0.82);
-    float startY = random(height - 138, height - 110);
-    particles.add(new BreathParticle(startX, startY, intensity));
-  }
-}
-
-void updateAndDrawParticles() {
-  // Iterate backwards so removing an expired particle does not skip the next item.
-  for (int i = particles.size() - 1; i >= 0; i--) {
-    BreathParticle particle = particles.get(i);
-    particle.update(intensity);
-    particle.display(intensity);
-
-    if (particle.isFinished()) {
-      particles.remove(i);
-    }
-  }
-}
-
-void updateAndDrawWaves() {
-  for (int i = waves.size() - 1; i >= 0; i--) {
-    BreathWave wave = waves.get(i);
-    wave.update();
-    wave.display();
-
-    if (wave.isFinished()) {
-      waves.remove(i);
-    }
-  }
-}
-
-// The sky warms as breath intensity increases.
-void drawSkyGradient(float energy) {
-  int calmTop = color(7, 14, 42);
-  int calmBottom = color(27, 60, 88);
-  int activeTop = color(34, 20, 65);
-  int activeBottom = color(175, 83, 78);
-
-  int topColour = lerpColor(calmTop, activeTop, energy);
-  int bottomColour = lerpColor(calmBottom, activeBottom, energy);
-
-  for (int y = 0; y < height; y += 2) {
-    float position = map(y, 0, height, 0, 1);
-    stroke(lerpColor(topColour, bottomColour, position));
-    line(0, y, width, y);
-    line(0, y + 1, width, y + 1);
-  }
-}
-
-void drawStars(float energy) {
-  for (int i = 0; i < stars.length; i++) {
-    stars[i].display(energy);
-  }
-}
-
-void drawMoon(float energy) {
-  float pulse = 1 + energy * 0.30;
-  noStroke();
-  fill(165, 224, 242, 22 + energy * 36);
-  circle(width * 0.80, height * 0.18, 118 * pulse);
-  fill(232, 245, 255, 220);
-  circle(width * 0.80, height * 0.18, 70 * pulse);
-}
-
-void drawHarbour(float energy) {
-  noStroke();
-  fill(5, 17, 36, 230);
-  rect(0, height - 125, width, 125);
-
-  float waveAmplitude = 2 + energy * 14;
-  for (int row = 0; row < 8; row++) {
-    int waterColour = lerpColor(color(74, 152, 186, 70), color(255, 152, 114, 135), energy);
-    stroke(waterColour);
-    noFill();
-    beginShape();
-    for (int x = 0; x <= width; x += 12) {
-      float y = height - 112 + row * 14;
-      float wave = sin(x * 0.025 + frameCount * 0.025 + row) * waveAmplitude;
-      vertex(x, y + wave);
-    }
-    endShape();
-  }
+String modeName() { return mode == MICROPHONE ? "MICROPHONE" : mode == MOUSE ? "MOUSE SIMULATION" : "AUTO DEMO / SYNTHETIC RMS"; }
+String stageName() {
+  if (mode == MICROPHONE && !input.available) return "INPUT UNAVAILABLE - I retry / M simulate";
+  if (mode != MOUSE && input.envelope.calibrating) return "CALIBRATING - stay quiet  " + nf(input.envelope.calibrationRemaining(), 1, 1) + " s";
+  if (mode == MICROPHONE && input.zeroSeconds > 5) return "NO SIGNAL - check permission / input device";
+  if (mode == MICROPHONE && input.clippingSeconds > 0.2) return "INPUT CLIPPING - move back or reduce OS gain";
+  if (intensity < 0.035) return "CALM / LISTENING";
+  return intensity < 0.5 ? "GENTLE RESPONSE" : "STRONG RESPONSE";
 }
 
 void drawInterface() {
-  drawTitleAndStatus();
-
-  if (debugVisible) {
-    drawDebugPanel();
-  }
-
+  pushStyle();
+  noStroke(); fill(231, 236, 226); textAlign(LEFT, TOP);
+  textSize(12); text("S Y D N E Y   H A R B O U R", 34, 24);
+  textSize(31); text("Breathing City", 32, 43);
+  textSize(11); fill(mode == MICROPHONE ? color(149, 215, 203) : color(245, 201, 128));
+  text(modeName(), 35, 87);
+  fill(207, 218, 222); text(stageName(), 35, 106);
+  if (debugVisible) drawDebugPanel();
+  if (guidedTest) drawGuidedTest();
   if (helpVisible) {
-    drawHelpPanel();
+    fill(3, 13, 25, 220); rect(22, height - 66, width - 44, 50, 8);
+    fill(190, 210, 214); textSize(11);
+    text("M mic / mouse    A auto demo    G guided test    R calibrate    I retry    N next input    D data    H help    S screenshot", 35, height - 56);
+    text("[ / ] threshold margin    - / = sensitivity    0 reset tuning    |    Sound level control; speech and other sounds also respond.", 35, height - 36);
   }
-}
-
-void drawTitleAndStatus() {
-  fill(238, 248, 255, 230);
-  textAlign(LEFT, TOP);
-  textSize(28);
-  text("BREATHING CITY", 34, 28);
-
-  textSize(13);
-  fill(185, 216, 229, 210);
-
-  if (simulationMode) {
-    text("SIMULATION MODE  •  move the mouse horizontally", 36, 66);
-  } else if (!breathInput.available) {
-    fill(255, 179, 145);
-    text("MICROPHONE UNAVAILABLE  •  press M for simulation mode", 36, 66);
-  } else if (breathInput.calibrating) {
-    fill(255, 215, 126);
-    text("CALIBRATING  •  stay quiet for " + nf(breathInput.secondsRemaining(), 1, 1) + " seconds", 36, 66);
-  } else if (intensity < 0.08) {
-    text("CALM  •  breathe towards the microphone", 36, 66);
-  } else {
-    fill(255, 211, 155);
-    text("BREATH DETECTED  •  intensity " + nf(intensity, 1, 2), 36, 66);
-  }
+  if (elapsed < noticeUntil) { fill(255, 208, 136); textSize(12); text(notice, 35, height - 88); }
+  popStyle();
 }
 
 void drawDebugPanel() {
-  float panelX = 34;
-  float panelY = 104;
-  float panelW = 280;
-  float panelH = 128;
-
-  noStroke();
-  fill(5, 15, 34, 185);
-  rect(panelX, panelY, panelW, panelH, 12);
-
-  fill(205, 229, 239);
-  textSize(11);
-  textAlign(LEFT, TOP);
-  text("LIVE DATA", panelX + 14, panelY + 12);
-  text("raw amplitude     " + nf(breathInput.rawLevel, 1, 4), panelX + 14, panelY + 34);
-  text("noise floor       " + nf(breathInput.noiseFloor, 1, 4), panelX + 14, panelY + 52);
-  text("mapped intensity  " + nf(intensity, 1, 3), panelX + 14, panelY + 70);
-  text("particles         " + particles.size(), panelX + 14, panelY + 88);
-
-  levelGraph.display(panelX + 139, panelY + 31, 126, 72, intensity);
+  SignalEnvelope signal = input.envelope;
+  noStroke(); fill(3, 13, 25, 208); rect(24, 133, 318, 178, 10);
+  fill(175, 197, 205); textSize(11);
+  String rawText = mode == MOUSE ? "not sampled" : nf(signal.raw, 1, 4);
+  text("RMS  " + rawText + "     FLOOR  " + nf(signal.noiseFloor, 1, 4), 37, 147);
+  text("OPEN  " + nf(signal.openingThreshold(), 1, 4) + "     GAIN  " + nf(signal.sensitivity, 1, 2), 37, 166);
+  text("INTENSITY  " + nf(intensity, 1, 3) + "     FPS  " + nf(frameRate, 1, 0), 37, 185);
+  text("PARTICLES  " + effects.particles.size() + "/180     RIPPLES  " + effects.ripples.size() + "/8", 37, 204);
+  graph.display(37, 228, 290, 43);
+  String device = mode == MICROPHONE ? input.deviceName : "Simulation - not microphone evidence";
+  if (device.length() > 46) device = device.substring(0, 43) + "...";
+  fill(151, 175, 184); text(device, 37, 284);
 }
 
-void drawHelpPanel() {
-  String controls = "M  mic/simulation   R  recalibrate   D  data   H  help   S  screenshot";
-  textSize(11);
-  textAlign(RIGHT, BOTTOM);
-  float textWidthValue = textWidth(controls);
-
-  noStroke();
-  fill(5, 15, 34, 168);
-  rect(width - textWidthValue - 48, height - 51, textWidthValue + 28, 29, 8);
-  fill(205, 229, 239, 215);
-  text(controls, width - 34, height - 31);
+void switchMode(int next) {
+  input.stop(); mode = next; intensity = demoTime = 0; guidedTest = false;
+  effects.reset(); graph.clear();
+  if (mode == MICROPHONE) input.begin();
+  if (mode == DEMO) input.envelope.startCalibration();
 }
 
 void keyPressed() {
-  if (key == 'm' || key == 'M') {
-    simulationMode = !simulationMode;
-    intensity = 0;
-    previousIntensity = 0;
+  if (key == 'm' || key == 'M') switchMode(mode == MICROPHONE ? MOUSE : MICROPHONE);
+  else if (key == 'a' || key == 'A') switchMode(DEMO);
+  else if (key == 'g' || key == 'G') startGuidedTest();
+  else if (key == 'r' || key == 'R') {
+    if (mode == MICROPHONE && input.available) {
+      guidedTest = false; // A new calibration invalidates an in-progress trial.
+      input.envelope.startCalibration();
+    }
+    else if (mode == DEMO) { demoTime = 0; input.envelope.startCalibration(); }
+    else showNotice("R calibrates an active mic. Press M to switch, or I to reconnect.");
   }
-
-  if (key == 'r' || key == 'R') {
-    breathInput.startCalibration();
-    simulationMode = false;
+  else if (key == 'i' || key == 'I') switchMode(MICROPHONE);
+  else if (key == 'n' || key == 'N') {
+    guidedTest = false; mode = MICROPHONE; intensity = 0;
+    effects.reset(); graph.clear(); input.nextDevice();
   }
-
-  if (key == 'd' || key == 'D') {
-    debugVisible = !debugVisible;
-  }
-
-  if (key == 'h' || key == 'H') {
-    helpVisible = !helpVisible;
-  }
-
-  if (key == 's' || key == 'S') {
-    saveFrame("BreathingCity-####.png");
+  else if (key == '[') input.envelope.adjustMargin(-0.0005);
+  else if (key == ']') input.envelope.adjustMargin(0.0005);
+  else if (key == '-' || key == '_') input.envelope.adjustSensitivity(1.0 / 1.25);
+  else if (key == '=' || key == '+') input.envelope.adjustSensitivity(1.25);
+  else if (key == '0') { input.envelope.margin = 0.002; input.envelope.sensitivity = 1; }
+  else if (key == 'd' || key == 'D') debugVisible = !debugVisible;
+  else if (key == 'h' || key == 'H') helpVisible = !helpVisible;
+  else if (key == 's' || key == 'S') {
+    String filename = "screenshots/BreathingCity-" + System.currentTimeMillis() + ".png";
+    save(filename); showNotice("Saved " + filename);
   }
 }
 
-class BreathInput {
-  PApplet parent;
-  AudioIn microphone;
-  Amplitude amplitudeAnalyzer;
+void showNotice(String text) { notice = text; noticeUntil = elapsed + 4; }
 
-  boolean available = false;
-  boolean calibrating = false;
-  float rawLevel = 0;
-  float noiseFloor = 0.004;
-  float smoothedIntensity = 0;
+// A reproducible, prompted HUMAN trial. Prompts identify requested actions;
+// the participant must still confirm that they actually followed each prompt.
+void startGuidedTest() {
+  if (mode != MICROPHONE || !input.available) switchMode(MICROPHONE);
+  if (!input.available) { showNotice("A working microphone is required for G."); return; }
+  guidedTest = true; guidedStarted = elapsed;
+  input.envelope.startCalibration(); effects.reset(); graph.clear();
+}
 
-  float calibrationTotal = 0;
-  int calibrationSamples = 0;
-  int calibrationStartedAt = 0;
-  final int CALIBRATION_DURATION_MS = 3000;
+String guidedPhase() {
+  if (!guidedTest) return "none";
+  float t = elapsed - guidedStarted;
+  return t < 10 ? "quiet" : t < 25 ? "gentle" : t < 40 ? "strong" : t < 55 ? "recovery" : "complete";
+}
 
-  BreathInput(PApplet sketch) {
-    parent = sketch;
+void drawGuidedTest() {
+  float t = elapsed - guidedStarted;
+  String phase = guidedPhase();
+  String prompt = phase.equals("quiet") ? "STAY QUIET / CALIBRATING" :
+    phase.equals("gentle") ? "BREATHE GENTLY toward microphone" :
+    phase.equals("strong") ? "BLOW MORE STRONGLY toward microphone" :
+    phase.equals("recovery") ? "STOP / STAY QUIET" : "TEST COMPLETE - confirm observations";
+  float phaseEnd = t < 10 ? 10 : t < 25 ? 25 : t < 40 ? 40 : t < 55 ? 55 : 60;
+  fill(3, 13, 25, 230); rect(365, 24, 625, 83, 10);
+  fill(249, 217, 160); textAlign(LEFT, TOP); textSize(18);
+  text(prompt, 383, 39);
+  fill(194, 214, 217); textSize(13);
+  text("LIVE MICROPHONE TEST  |  " + max(0, ceil(phaseEnd - t)) + " seconds in this stage", 384, 73);
+  if (t >= 60) guidedTest = false;
+}
+float positiveEnvironmentNumber(String name, float fallback) {
+  try { return max(0, Float.parseFloat(System.getenv(name))); }
+  catch (Exception ignored) { return fallback; }
+}
+
+// Evidence records numbers only, never microphone audio. Files are opt-in.
+void recordEvidence() {
+  maxParticlesSeen = max(maxParticlesSeen, effects.particles.size());
+  maxRipplesSeen = max(maxRipplesSeen, effects.ripples.size());
+  if (elapsed > 2) { fpsSum += frameRate; fpsSamples++; minFps = min(minFps, frameRate); }
+  if (telemetry == null) return;
+  if (elapsed >= nextTelemetry * 0.25) {
+    SignalEnvelope s = input.envelope;
+    telemetry.println(String.format(java.util.Locale.US,
+      "%.3f,%s,%.6f,%.6f,%.6f,%.3f,%.5f,%.5f,%d,%d,%.2f,%.2f,%s",
+      elapsed, modeName(), s.raw, s.noiseFloor, s.openingThreshold(), s.sensitivity,
+      s.target, intensity, effects.particles.size(), effects.ripples.size(), frameRate,
+      (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576.0,
+      guidedPhase()));
+    telemetry.flush(); nextTelemetry++;
   }
-
-  void begin() {
-    try {
-      microphone = new AudioIn(parent, 0);
-      amplitudeAnalyzer = new Amplitude(parent);
-      microphone.start();
-      amplitudeAnalyzer.input(microphone);
-      available = true;
-      startCalibration();
-    }
-    catch (RuntimeException error) {
-      available = false;
-      calibrating = false;
-      println("Microphone could not start: " + error.getMessage());
-      println("Press M to use mouse simulation mode.");
-    }
+  if (captureFrames) save(runDirectory + "/frames/" + nf(captureIndex++, 6) + ".png");
+  float[] moments = {1.5, 5, 8, 13, 21};
+  String[] names = {"01-calibration", "02-calm", "03-gentle", "04-strong", "05-recovery"};
+  for (int i = 0; i < moments.length; i++) {
+    String label = mode == DEMO ? names[i] : "input-at-" + int(moments[i] * 10) + "-tenths";
+    File screenshot = new File(runDirectory + "/" + label + ".png");
+    if (elapsed >= moments[i] && !screenshot.exists()) save(screenshot.getAbsolutePath());
   }
-
-  void startCalibration() {
-    if (!available) {
-      return;
-    }
-
-    calibrationTotal = 0;
-    calibrationSamples = 0;
-    calibrationStartedAt = millis();
-    calibrating = true;
-    smoothedIntensity = 0;
-  }
-
-  float update() {
-    if (!available) {
-      rawLevel = 0;
-      return 0;
-    }
-
-    rawLevel = amplitudeAnalyzer.analyze();
-
-    if (calibrating) {
-      calibrationTotal += rawLevel;
-      calibrationSamples++;
-
-      if (millis() - calibrationStartedAt >= CALIBRATION_DURATION_MS) {
-        // The multiplier places the threshold slightly above average room noise.
-        noiseFloor = max(0.0015, (calibrationTotal / max(1, calibrationSamples)) * 1.35);
-        calibrating = false;
-      }
-      return 0;
-    }
-
-    float signalAboveRoomNoise = max(0, rawLevel - noiseFloor);
-    float strongBreathLevel = max(0.025, noiseFloor * 7.5);
-    float mapped = constrain(map(signalAboveRoomNoise, 0, strongBreathLevel, 0, 1), 0, 1);
-
-    // Attack is quick; release is slow. This avoids nervous flicker after each breath.
-    float smoothingRate = mapped > smoothedIntensity ? 0.24 : 0.065;
-    smoothedIntensity = lerp(smoothedIntensity, mapped, smoothingRate);
-
-    if (smoothedIntensity < 0.006) {
-      smoothedIntensity = 0;
-    }
-
-    return smoothedIntensity;
-  }
-
-  float secondsRemaining() {
-    float remaining = CALIBRATION_DURATION_MS - (millis() - calibrationStartedAt);
-    return max(0, remaining / 1000.0);
+  if (guidedTest) {
+    String phase = guidedPhase();
+    File stageShot = new File(runDirectory + "/guided-" + phase + ".png");
+    float t = elapsed - guidedStarted;
+    float stageStart = t < 10 ? 0 : t < 25 ? 10 : t < 40 ? 25 : t < 55 ? 40 : 55;
+    if (t - stageStart >= 2 && !stageShot.exists()) save(stageShot.getAbsolutePath());
   }
 }
 
-class Building {
-  float x;
-  float groundY;
-  float w;
-  float h;
-  int columns;
-  int rows;
-  int buildingIndex;
-
-  Building(float startX, float bottomY, float buildingWidth, float buildingHeight, int index) {
-    x = startX;
-    groundY = bottomY;
-    w = buildingWidth;
-    h = buildingHeight;
-    buildingIndex = index;
-    columns = max(2, int(w / 17));
-    rows = max(3, int(h / 24));
-  }
-
-  void display(float energy) {
-    int calmBuilding = color(8, 19, 40);
-    int activeBuilding = color(32, 28, 57);
-    noStroke();
-    fill(lerpColor(calmBuilding, activeBuilding, energy));
-    rect(x, groundY - h, w, h);
-
-    float gapX = w / (columns + 1);
-    float gapY = h / (rows + 1);
-
-    for (int row = 1; row <= rows; row++) {
-      for (int column = 1; column <= columns; column++) {
-        float windowX = x + column * gapX - 3;
-        float windowY = groundY - h + row * gapY - 4;
-        float windowPattern = noise(column * 0.71, row * 0.61, buildingIndex * 0.44);
-
-        int calmWindow = color(66, 108, 130, 85);
-        int activeWindow = color(255, 199, 105, 245);
-        float localEnergy = constrain(energy + map(windowPattern, 0, 1, -0.25, 0.25), 0, 1);
-        fill(lerpColor(calmWindow, activeWindow, localEnergy));
-        rect(windowX, windowY, 6, 8, 1);
-      }
-    }
-  }
+void finishEvidence() {
+  if (finishedRun || runDirectory == null) return;
+  finishedRun = true;
+  if (telemetry != null) { telemetry.flush(); telemetry.close(); }
+  JSONObject report = new JSONObject();
+  report.setString("project_version", PROJECT_VERSION);
+  report.setString("mode", modeName());
+  report.setString("os", System.getProperty("os.name") + " " + System.getProperty("os.version"));
+  report.setString("java", System.getProperty("java.version"));
+  report.setFloat("animation_seconds", elapsed);
+  report.setInt("rendered_frames", frameCount);
+  report.setInt("max_particles", maxParticlesSeen);
+  report.setInt("max_ripples", maxRipplesSeen);
+  report.setFloat("mean_fps_after_warmup", fpsSamples > 0 ? fpsSum / fpsSamples : 0);
+  report.setFloat("min_fps_after_warmup", fpsSamples > 0 ? minFps : 0);
+  report.setBoolean("fixed_animation_clock", captureFrames && mode == DEMO);
+  report.setBoolean("microphone_opened", input.available);
+  report.setString("microphone_error", input.errorMessage);
+  report.setString("device", input.deviceName);
+  report.setString("evidence_limit", mode == MICROPHONE ? "Live amplitude, no labelled human breath trial" : "Simulation; not evidence of human breath input");
+  saveJSONObject(report, runDirectory + "/run-report.json");
 }
 
-class Star {
-  float x;
-  float y;
-  float diameter;
-
-  Star(float startX, float startY, float starDiameter) {
-    x = startX;
-    y = startY;
-    diameter = starDiameter;
-  }
-
-  void display(float energy) {
-    float alpha = map(energy, 0, 1, 115, 35);
-    noStroke();
-    fill(220, 242, 255, alpha);
-    circle(x, y, diameter);
-  }
-}
-
-class BreathParticle {
-  PVector position;
-  PVector velocity;
-  float life;
-  float size;
-  float noiseOffset;
-  int baseColour;
-
-  BreathParticle(float startX, float startY, float birthEnergy) {
-    position = new PVector(startX, startY);
-    velocity = new PVector(random(-0.35, 0.35), random(-1.1, -0.35) - birthEnergy * 2.2);
-    life = random(150, 230);
-    size = random(2.5, 7.5);
-    noiseOffset = random(1000);
-    baseColour = lerpColor(color(113, 210, 230), color(255, 175, 119), birthEnergy);
-  }
-
-  void update(float energy) {
-    float sidewaysDrift = map(noise(noiseOffset), 0, 1, -0.035, 0.035);
-    velocity.x += sidewaysDrift;
-    velocity.y -= 0.002 + energy * 0.009;
-    velocity.limit(1.8 + energy * 4.5);
-    position.add(velocity);
-    noiseOffset += 0.012;
-    life -= 1.3 + energy * 0.5;
-  }
-
-  void display(float energy) {
-    noStroke();
-    float alpha = constrain(life, 0, 210);
-    int liveColour = lerpColor(baseColour, color(255, 224, 177), energy);
-    fill(red(liveColour), green(liveColour), blue(liveColour), alpha);
-    circle(position.x, position.y, size + energy * 4);
-  }
-
-  boolean isFinished() {
-    return life <= 0 || position.y < -20 || position.x < -20 || position.x > width + 20;
-  }
-}
-
-class BreathWave {
-  float x;
-  float y;
-  float radius;
-  float alpha;
-  float strength;
-
-  BreathWave(float centreX, float centreY, float breathStrength) {
-    x = centreX;
-    y = centreY;
-    radius = 30;
-    alpha = 220;
-    strength = breathStrength;
-  }
-
-  void update() {
-    radius += 4 + strength * 7;
-    alpha -= 3.0;
-  }
-
-  void display() {
-    noFill();
-    strokeWeight(1.5 + strength * 2.5);
-    stroke(151, 225, 239, alpha);
-    ellipse(x, y, radius * 2.3, radius * 0.42);
-    strokeWeight(1);
-  }
-
-  boolean isFinished() {
-    return alpha <= 0;
-  }
+// Preserve the final log when the user closes the sketch window or presses Esc.
+public void dispose() {
+  finishEvidence();
+  if (input != null) input.stop();
+  super.dispose();
 }
 
 class LevelGraph {
-  float[] history;
-  int nextIndex = 0;
-
-  LevelGraph(int sampleCount) {
-    history = new float[sampleCount];
-  }
-
-  void add(float value) {
-    history[nextIndex] = value;
-    nextIndex = (nextIndex + 1) % history.length;
-  }
-
-  void display(float x, float y, float w, float h, float currentValue) {
-    noFill();
-    stroke(101, 151, 174, 90);
-    rect(x, y, w, h, 4);
-
-    float thresholdY = y + h - BREATH_TRIGGER * h;
-    stroke(255, 198, 119, 90);
-    line(x, thresholdY, x + w, thresholdY);
-
-    stroke(119, 219, 230, 220);
-    beginShape();
-    for (int i = 0; i < history.length; i++) {
-      int historyIndex = (nextIndex + i) % history.length;
-      float graphX = map(i, 0, history.length - 1, x, x + w);
-      float graphY = y + h - history[historyIndex] * h;
-      vertex(graphX, graphY);
-    }
+  final float[] samples;
+  int next = 0;
+  LevelGraph(int count) { samples = new float[count]; }
+  void clear() { java.util.Arrays.fill(samples, 0); next = 0; }
+  void add(float value) { samples[next] = value; next = (next + 1) % samples.length; }
+  void display(float x, float y, float w, float h) {
+    noFill(); stroke(57, 86, 104); rect(x, y, w, h, 3);
+    stroke(144, 218, 207); beginShape();
+    for (int i = 0; i < samples.length; i++) vertex(x + i * w / (samples.length - 1), y + h * (1 - samples[(next + i) % samples.length]));
     endShape();
-
-    noStroke();
-    fill(255, 198, 119, 210);
-    circle(x + w, y + h - currentValue * h, 5);
   }
 }

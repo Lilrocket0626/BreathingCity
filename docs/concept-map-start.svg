@@ -1,56 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#07122e"/>
-      <stop offset="1" stop-color="#123e57"/>
-    </linearGradient>
-    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity="0.25"/></filter>
-    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#8ecae6"/></marker>
-    <style>
-      .node { fill:#f3fbff; stroke:#56b4d3; stroke-width:4; filter:url(#shadow); }
-      .core { fill:#ffd166; stroke:#f5a623; stroke-width:5; filter:url(#shadow); }
-      .label { font-family:Arial,sans-serif; font-size:28px; font-weight:700; fill:#10283a; text-anchor:middle; dominant-baseline:middle; }
-      .small { font-family:Arial,sans-serif; font-size:20px; fill:#365568; text-anchor:middle; }
-      .line { stroke:#8ecae6; stroke-width:5; fill:none; marker-end:url(#arrow); }
-      .caption { font-family:Arial,sans-serif; font-size:24px; fill:#d9f2ff; }
-    </style>
-  </defs>
-  <rect width="1600" height="1000" fill="url(#bg)"/>
-  <text x="70" y="70" class="caption" font-weight="700">INITIAL CONCEPT MAP - 10 SEPTEMBER 2026</text>
-  <text x="70" y="110" class="caption">Current understanding before microphone integration and user testing</text>
-
-  <path class="line" d="M685 425 C565 350 470 280 365 250"/>
-  <path class="line" d="M680 500 C520 500 430 500 340 500"/>
-  <path class="line" d="M685 575 C555 655 475 715 365 750"/>
-  <path class="line" d="M915 425 C1040 345 1130 285 1235 250"/>
-  <path class="line" d="M920 500 C1080 500 1170 500 1260 500"/>
-  <path class="line" d="M915 575 C1050 650 1135 715 1235 750"/>
-
-  <rect class="core" x="650" y="390" width="300" height="220" rx="42"/>
-  <text class="label" x="800" y="480">BREATHING CITY</text>
-  <text class="small" x="800" y="525">make invisible breath visible</text>
-
-  <rect class="node" x="105" y="165" width="320" height="170" rx="32"/>
-  <text class="label" x="265" y="225">INPUT</text>
-  <text class="small" x="265" y="270">microphone amplitude</text>
-
-  <rect class="node" x="75" y="415" width="350" height="170" rx="32"/>
-  <text class="label" x="250" y="475">DATA</text>
-  <text class="small" x="250" y="520">raw level → mapped value</text>
-
-  <rect class="node" x="105" y="665" width="320" height="170" rx="32"/>
-  <text class="label" x="265" y="725">CODE</text>
-  <text class="small" x="265" y="770">variables, loops, classes</text>
-
-  <rect class="node" x="1175" y="165" width="320" height="170" rx="32"/>
-  <text class="label" x="1335" y="225">VISUALS</text>
-  <text class="small" x="1335" y="270">skyline, colour, particles</text>
-
-  <rect class="node" x="1175" y="415" width="350" height="170" rx="32"/>
-  <text class="label" x="1350" y="475">INTERACTION</text>
-  <text class="small" x="1350" y="520">breath changes the artwork</text>
-
-  <rect class="node" x="1175" y="665" width="320" height="170" rx="32"/>
-  <text class="label" x="1335" y="725">TESTING</text>
-  <text class="small" x="1335" y="770">sensitivity and clarity</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6d94a6"/></marker></defs>
+<rect width="1600" height="920" fill="#0c1927"/>
+<style>text{font-family:Arial,sans-serif} .title{font-size:38px;font-weight:700;fill:#f5f3ea}.sub{font-size:19px;fill:#a6bdc9}.head{font-size:23px;font-weight:700;fill:#eef4f2}.body{font-size:20px;fill:#b8ccd4}.small{font-size:18px;fill:#a6bdc9}</style>
+<text x="65" y="66" class="title">BEFORE / Supplied prototype</text>
+<text x="65" y="108" class="sub">Reconstructed from the preserved baseline on 1 October 2026 — not a historical student concept map</text>
+<rect x="65" y="150" width="420" height="175" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="65" y="150" width="5" height="175" rx="2" fill="#6ddacb"/>
+<text x="88" y="189" class="head">1  INPUT</text>
+<text x="88" y="225" class="body">AudioIn → Amplitude RMS</text>
+<text x="88" y="254" class="body">Mouse maps horizontal position</text>
+<text x="88" y="283" class="body">Default microphone; retry limited</text>
+<rect x="560" y="150" width="475" height="175" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="560" y="150" width="5" height="175" rx="2" fill="#6ddacb"/>
+<text x="583" y="189" class="head">2  ROOM + RANGE</text>
+<text x="583" y="225" class="body">3-second average × 1.35</text>
+<text x="583" y="254" class="body">Subtract floor; fixed range</text>
+<text x="583" y="283" class="body">No runtime gain / margin control</text>
+<rect x="1110" y="150" width="425" height="175" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="1110" y="150" width="5" height="175" rx="2" fill="#6ddacb"/>
+<text x="1133" y="189" class="head">3  RESPONSE</text>
+<text x="1133" y="225" class="body">0.24 attack / 0.065 release</text>
+<text x="1133" y="254" class="body">Per-frame interpolation</text>
+<text x="1133" y="283" class="body">Shared intensity, from 0 to 1</text>
+<polyline points="485,240 553,240" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<polyline points="1035,240 1103,240" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="65" y="435" width="450" height="233" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="65" y="435" width="5" height="233" rx="2" fill="#efb982"/>
+<text x="88" y="474" class="head">GENERIC CITY</text>
+<text x="88" y="510" class="body">Random rectangular buildings</text>
+<text x="88" y="539" class="body">Sky and windows change colour</text>
+<text x="88" y="568" class="body">No explicit Sydney landmarks</text>
+<rect x="575" y="435" width="450" height="233" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="575" y="435" width="5" height="233" rx="2" fill="#efb982"/>
+<text x="598" y="474" class="head">WATER + TRANSIENTS</text>
+<text x="598" y="510" class="body">Waves: amplitude varies</text>
+<text x="598" y="539" class="body">Water phase speed fixed</text>
+<text x="598" y="568" class="body">Ripple strength fixed at onset</text>
+<rect x="1085" y="435" width="450" height="233" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="1085" y="435" width="5" height="233" rx="2" fill="#efb982"/>
+<text x="1108" y="474" class="head">STABILITY + EVIDENCE</text>
+<text x="1108" y="510" class="body">Particle cap: 180; finite life</text>
+<text x="1108" y="539" class="body">Frame-based motion / cooldown</text>
+<text x="1108" y="568" class="body">Human microphone tests pending</text>
+<polyline points="1322,325 1322,380 290,380 290,428" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<polyline points="800,380 800,428" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<polyline points="1310,380 1310,428" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="65" y="725" width="1470" height="95" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="65" y="725" width="5" height="95" rx="2" fill="#6ddacb"/>
+<text x="88" y="764" class="head">CHANGE QUESTION</text>
+<text x="88" y="800" class="body">How can input be adjustable, Sydney recognisable, and behaviour inspectable across different computers?</text>
+<text x="65" y="874" class="small">Source: archive/baseline-2026-10-01/BreathingCity/BreathingCity.pde. Diagram generated with AI assistance.</text>
 </svg>

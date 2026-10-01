@@ -1,0 +1,1 @@
+The first code section is SignalEnvelope. AudioIn captures the selected input channel. Amplitude calculates the root mean square of each audio block and returns a level. During three seconds of calibration, the envelope collects room-noise readings and uses their ninetieth percentile. Staying quiet is important: sustained noise will raise this estimate.

@@ -1,0 +1,12 @@
+PASS M microphone to mouse clears previous state
+PASS M mouse to microphone reconnects and calibrates
+PASS A starts a fresh synthetic demo
+PASS R restarts demo calibration
+PASS bracket keys tune and bound threshold margin
+PASS gain aliases bound sensitivity; zero resets tuning
+PASS D and H toggle panels
+PASS G refuses unavailable microphone
+PASS G starts calibration and correct guided stages
+PASS N and R cancel the previous guided timeline
+PASS: 10 callback cases, 1017 assertions.
+Direct callback tests only; microphone adapter stubbed; no physical key presses or GUI.

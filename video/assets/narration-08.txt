@@ -1,0 +1,1 @@
+The source, parameter guide, before-and-after files and test records accompany the project. Hardware-specific microphone checks and real peer feedback remain separate from this simulated demonstration.

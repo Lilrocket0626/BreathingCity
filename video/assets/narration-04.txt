@@ -1,0 +1,1 @@
+The opening threshold adds an adjustable margin to the noise floor. A lower closing threshold creates hysteresis, reducing rapid on-off switching. The signal above the opening threshold is multiplied by sensitivity and limited to zero through one.

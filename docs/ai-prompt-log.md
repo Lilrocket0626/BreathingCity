@@ -1,27 +1,15 @@
-# Generative AI Prompt and Output Log
+# AI assistance log
 
-This log supplements, but does not replace, the required genuine screenshots of prompts and outputs.
+This is a factual summary of the current visible request and revision session, dated **1 October 2026**. It is not a reconstruction of earlier conversations. Retain an export or genuine screenshots of the actual conversation if the assessment requires them.
 
-## Interaction 1 Project concept and A1 pitch
+| Stage | User request / assistant activity | Result / evidence |
+|---|---|---|
+| Review request | User asked whether the supplied Processing + Sound sketch met the breath/blowing interaction, calibration, smoothing, stability and simulation requirements | Source review identified fixed sensitivity, missing Sydney landmarks, fixed wave speed and weak ripple strength differentiation |
+| Implementation request | User requested finished code, dependency/version documentation, README, English comments, real sources, runtime evidence, code explanation, reflection support and a video | Scope of the current revision |
+| Baseline preservation | Assistant preserved the supplied sketch, README and old docs before editing | `archive/baseline-2026-10-01/` with `SHA256.json` |
+| Code revision | Codex assisted with code structure, input conditioning, procedural visual changes, diagnostics and bounded effects | Final `.pde` tabs and comparison against baseline |
+| Documentation | Codex drafted code explanations, concept maps, script, test instructions and an evidence-based reflection scaffold; verified public Processing references | Active `docs/` files and [references.md](references.md) |
+| Validation / demonstration | Record exact performed commands, outputs, captures and video provenance in the runtime report and evidence directory | Do not convert generated test input into a claim of human microphone testing |
+| Student participation | User said they will participate in testing/modification and acknowledge assistance | Actual student decisions, test observations and course-source synthesis are still to be added when performed |
 
-**Prompt summary:** The student stated that the tutor permitted ChatGPT use and asked it to generate a project idea and complete pitch. The student supplied the name Jiangpeng Huang.
-
-**Output summary:** ChatGPT proposed *Breathing City*, an interactive visual artwork in which microphone amplitude controls a Sydney-inspired city. It generated the A1 pitch deck and speaking notes.
-
-## Interaction 2 Understanding the A2 task
-
-**Prompt summary:** The student asked for help understanding the A2 assignment and later asked what the Week 7 class covered.
-
-**Output summary:** ChatGPT explained the three required components, the focus on iterative prototyping and code literacy, the need for a project journal and two concept maps, and the importance of testing, peer feedback, APA 7 referencing and a GenAI declaration.
-
-## Interaction 3 Completing the prototype
-
-**Prompt summary:** The student returned to the final project and stated that nothing had been started, asking ChatGPT to complete everything as a ready-to-submit version.
-
-**Output summary:** ChatGPT created the Processing sketch, repository documentation, test plan, project journal, diagrams, critical-reflection draft, GenAI declaration and timed explainer-video script. It also performed a structural code check and clearly identified the remaining need for a genuine Processing runtime test, real peer feedback, authentic screenshots, a public GitHub link and a real narrated MP4.
-
-## Interaction 4 Final revision
-
-**Prompt summary:** The student asked for the project to be prepared to an HD standard and confirmed written tutor permission for AI use.
-
-**Output summary:** ChatGPT revised the code and documents against the A2 brief, checklist and rubric. It corrected a Processing lifecycle issue by moving `smooth(8)` into `settings()`, added a final concept map, strengthened the code walkthrough, and prepared a submission checklist.
+The inherited log asserted earlier interactions and tutor permissions that were not visible in this session. It remains in the archive as an inherited document, but is not used as verified evidence here.

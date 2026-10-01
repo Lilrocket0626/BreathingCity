@@ -1,64 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#07122e"/>
-      <stop offset="1" stop-color="#123e57"/>
-    </linearGradient>
-    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-opacity="0.25"/></filter>
-    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#8ecae6"/></marker>
-    <style>
-      .node { fill:#f3fbff; stroke:#56b4d3; stroke-width:4; filter:url(#shadow); }
-      .process { fill:#dff6f2; stroke:#34a89b; stroke-width:4; filter:url(#shadow); }
-      .core { fill:#ffd166; stroke:#f5a623; stroke-width:5; filter:url(#shadow); }
-      .label { font-family:Arial,sans-serif; font-size:27px; font-weight:700; fill:#10283a; text-anchor:middle; dominant-baseline:middle; }
-      .small { font-family:Arial,sans-serif; font-size:19px; fill:#365568; text-anchor:middle; }
-      .line { stroke:#8ecae6; stroke-width:5; fill:none; marker-end:url(#arrow); }
-      .title { font-family:Arial,sans-serif; font-size:35px; font-weight:700; fill:#d9f2ff; }
-      .subtitle { font-family:Arial,sans-serif; font-size:22px; fill:#b9dbea; }
-    </style>
-  </defs>
-  <rect width="1600" height="1000" fill="url(#bg)"/>
-  <text x="70" y="62" class="title">FROM BREATH TO CITY</text>
-  <text x="70" y="100" class="subtitle">One processed value creates several coordinated visual responses</text>
-
-  <path class="line" d="M800 230 L800 292"/>
-  <path class="line" d="M800 430 L800 492"/>
-  <path class="line" d="M800 630 L800 690"/>
-  <path class="line" d="M800 820 C670 845 420 850 280 870"/>
-  <path class="line" d="M800 820 C745 850 690 860 640 870"/>
-  <path class="line" d="M800 820 C855 850 910 860 960 870"/>
-  <path class="line" d="M800 820 C930 845 1180 850 1320 870"/>
-
-  <rect class="node" x="605" y="130" width="390" height="100" rx="26"/>
-  <text class="label" x="800" y="170">MICROPHONE INPUT</text>
-  <text class="small" x="800" y="205">AudioIn + Amplitude.analyze()</text>
-
-  <rect class="process" x="470" y="295" width="660" height="135" rx="28"/>
-  <text class="label" x="800" y="335">PROCESS THE SIGNAL</text>
-  <text class="small" x="800" y="375">subtract room noise → map and constrain</text>
-  <text class="small" x="800" y="405">attack/release smoothing → stable intensity</text>
-
-  <rect class="core" x="615" y="495" width="370" height="135" rx="30"/>
-  <text class="label" x="800" y="540">INTENSITY</text>
-  <text class="small" x="800" y="582">shared value from 0.0 to 1.0</text>
-
-  <rect class="process" x="485" y="695" width="630" height="125" rx="28"/>
-  <text class="label" x="800" y="735">INTERPRET THE VALUE</text>
-  <text class="small" x="800" y="775">continuous control + threshold event detection</text>
-
-  <rect class="node" x="105" y="870" width="300" height="90" rx="24"/>
-  <text class="label" x="255" y="905">CITY LIGHT</text>
-  <text class="small" x="255" y="940">colour + brightness</text>
-
-  <rect class="node" x="485" y="870" width="300" height="90" rx="24"/>
-  <text class="label" x="635" y="905">PARTICLES</text>
-  <text class="small" x="635" y="940">rate + movement</text>
-
-  <rect class="node" x="865" y="870" width="300" height="90" rx="24"/>
-  <text class="label" x="1015" y="905">BREATH WAVE</text>
-  <text class="small" x="1015" y="940">threshold + cooldown</text>
-
-  <rect class="node" x="1245" y="870" width="300" height="90" rx="24"/>
-  <text class="label" x="1395" y="905">LIVE GRAPH</text>
-  <text class="small" x="1395" y="940">circular history array</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6d94a6"/></marker></defs>
+<rect width="1600" height="920" fill="#0c1927"/>
+<style>text{font-family:Arial,sans-serif} .title{font-size:38px;font-weight:700;fill:#f5f3ea}.sub{font-size:19px;fill:#a6bdc9}.head{font-size:23px;font-weight:700;fill:#eef4f2}.body{font-size:20px;fill:#b8ccd4}.small{font-size:18px;fill:#a6bdc9}</style>
+<text x="65" y="66" class="title">DATA FLOW / From sound to Sydney</text>
+<text x="65" y="108" class="sub">On screen: raw level, floor and energy. In telemetry: raw level, threshold, target and energy.</text>
+<rect x="65" y="155" width="420" height="175" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="65" y="155" width="5" height="175" rx="2" fill="#6ddacb"/>
+<text x="88" y="194" class="head">A  AUDIO INPUT</text>
+<text x="88" y="230" class="body">Sound selects input device</text>
+<text x="88" y="259" class="body">AudioIn(channel 0).start()</text>
+<text x="88" y="288" class="body">Amplitude.analyze() → RMS</text>
+<rect x="560" y="155" width="475" height="175" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="560" y="155" width="5" height="175" rx="2" fill="#6ddacb"/>
+<text x="583" y="194" class="head">B  CALIBRATION</text>
+<text x="583" y="230" class="body">Quiet readings for ~3 seconds</text>
+<text x="583" y="259" class="body">90th percentile → noiseFloor</text>
+<text x="583" y="288" class="body">Margin tunes noise rejection</text>
+<rect x="1110" y="155" width="425" height="175" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="1110" y="155" width="5" height="175" rx="2" fill="#6ddacb"/>
+<text x="1133" y="194" class="head">C  HYSTERESIS</text>
+<text x="1133" y="230" class="body">Open: floor + margin</text>
+<text x="1133" y="259" class="body">Close: floor + 0.55 × margin</text>
+<text x="1133" y="288" class="body">Gate remembers its state</text>
+<polyline points="485,242 553,242" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<polyline points="1035,242 1103,242" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="1110" y="435" width="425" height="208" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="1110" y="435" width="5" height="208" rx="2" fill="#6ddacb"/>
+<text x="1133" y="474" class="head">D  NORMALISATION</text>
+<text x="1133" y="510" class="body">Subtract opening threshold</text>
+<text x="1133" y="539" class="body">Multiply sensitivity; divide .06</text>
+<text x="1133" y="568" class="body">Clamp target to [0,1]</text>
+<text x="1133" y="597" class="body">Gate closed → target zero</text>
+<rect x="560" y="435" width="475" height="208" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="560" y="435" width="5" height="208" rx="2" fill="#6ddacb"/>
+<text x="583" y="474" class="head">E  SMOOTHING</text>
+<text x="583" y="510" class="body">alpha = 1 - exp(-dt / tau)</text>
+<text x="583" y="539" class="body">energy += alpha × (target-energy)</text>
+<text x="583" y="568" class="body">Attack tau .10 s; release .55 s</text>
+<text x="583" y="597" class="body">Near-zero residue → zero</text>
+<rect x="65" y="435" width="420" height="208" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="65" y="435" width="5" height="208" rx="2" fill="#6ddacb"/>
+<text x="88" y="474" class="head">F  VISUAL SYSTEMS</text>
+<text x="88" y="510" class="body">Landmark/window/sky colours</text>
+<text x="88" y="539" class="body">Integrated wave phase + height</text>
+<text x="88" y="568" class="body">Particle emission and speed</text>
+<text x="88" y="597" class="body">Ripple peak and lifecycle</text>
+<polyline points="1322,330 1322,428" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<polyline points="1110,537 1042,537" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<polyline points="560,537 492,537" fill="none" stroke="#6d94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="65" y="710" width="1470" height="106" rx="14" fill="#152b3b" stroke="#2c4859"/>
+<rect x="65" y="710" width="5" height="106" rx="2" fill="#efb982"/>
+<text x="88" y="749" class="head">BOUNDARIES</text>
+<text x="88" y="785" class="body">RMS is a loudness proxy, not dB SPL or breath classification. Synthetic input validates software only.</text>
+<text x="65" y="874" class="small">Source: final BreathInput.pde, SignalEnvelope.java, CityScene.pde and VisualEffects.pde. Created 1 October 2026.</text>
 </svg>

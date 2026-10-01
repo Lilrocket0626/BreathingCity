@@ -1,0 +1,75 @@
+{
+  "build_exit_code": 0,
+  "run_exit_code": 0,
+  "final_source_matches_deliverable": true,
+  "sketch_file_count": 5,
+  "processing": "4.5.7",
+  "sound": "2.4.0",
+  "runtime_report": {
+    "max_ripples": 3,
+    "animation_seconds": 24.008573532104492,
+    "os": "Mac OS X 26.6.2",
+    "rendered_frames": 1307,
+    "max_particles": 180,
+    "min_fps_after_warmup": 34.47594451904297,
+    "mode": "AUTO DEMO / SYNTHETIC RMS",
+    "evidence_limit": "Simulation; not evidence of human breath input",
+    "java": "17.0.20.1",
+    "microphone_error": "",
+    "fixed_animation_clock": false,
+    "project_version": "2.0",
+    "mean_fps_after_warmup": 55.17405700683594,
+    "device": "System default",
+    "microphone_opened": false
+  },
+  "stage_samples": {
+    "calm": {
+      "seconds": "5.003",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "0.00000",
+      "particles": "0",
+      "ripples": "0",
+      "fps": "58.71"
+    },
+    "gentle": {
+      "seconds": "8.010",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "0.22493",
+      "particles": "63",
+      "ripples": "1",
+      "fps": "57.27"
+    },
+    "strong": {
+      "seconds": "13.005",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "1.00000",
+      "particles": "180",
+      "ripples": "3",
+      "fps": "59.29"
+    },
+    "recovery": {
+      "seconds": "21.007",
+      "mode": "AUTO DEMO / SYNTHETIC RMS",
+      "intensity": "0.00000",
+      "particles": "0",
+      "ripples": "0",
+      "fps": "59.97"
+    }
+  },
+  "screenshots": [
+    "01-calibration.png",
+    "02-calm.png",
+    "03-gentle.png",
+    "04-strong.png",
+    "05-recovery.png"
+  ],
+  "callback_regression": "10 cases and1017 assertions passed; hardware adapter stubbed; no physical keys",
+  "source_change_since_initial_run": "N cancels guided timeline and clears graph; R mic calibration cancels guided timeline",
+  "soak_scope_note": "The separate10-minute soak used pre-fix main code with no keys exercised. Render, audio, signal, effects and all animation paths are unchanged by this callback fix.",
+  "limits": [
+    "Same host with installed isolated runtime/library, not a cleanOS installation",
+    "Synthetic demo, no microphone opened",
+    "No keyboard GUI interaction",
+    "Final source compiled and24-second native run completed after callback fix"
+  ]
+}

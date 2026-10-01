@@ -1,0 +1,104 @@
+{
+  "03-input": [
+    {
+      "file": "BreathInput.pde",
+      "first_line": 39,
+      "last_line": 42,
+      "text": "      microphone = new AudioIn(parent, 0);\n      if (analyzer == null) analyzer = new Amplitude(parent);\n      microphone.start(); // start(), unlike play(), avoids monitoring/feedback.\n      analyzer.input(microphone);"
+    },
+    {
+      "file": "BreathInput.pde",
+      "first_line": 76,
+      "last_line": 76,
+      "text": "      float sample = analyzer.analyze(); // RMS amplitude of the current audio block."
+    }
+  ],
+  "04-calibration": [
+    {
+      "file": "SignalEnvelope.java",
+      "first_line": 55,
+      "last_line": 60,
+      "text": "      if (calibrationElapsed >= CALIBRATION_SECONDS && samples >= 45) {\n        Arrays.sort(calibration, 0, samples);\n        // The 90th percentile rejects isolated clicks but represents typical louder\n        // room noise. Stay quiet: sustained speech during calibration biases it.\n        noiseFloor = Math.max(0.0003f, calibration[(int)((samples - 1) * 0.90f)]);\n        calibrating = false;"
+    }
+  ],
+  "05-gate": [
+    {
+      "file": "SignalEnvelope.java",
+      "first_line": 37,
+      "last_line": 38,
+      "text": "  public float openingThreshold() { return noiseFloor + margin; }\n  public float closingThreshold() { return noiseFloor + margin * 0.55f; }"
+    },
+    {
+      "file": "SignalEnvelope.java",
+      "first_line": 68,
+      "last_line": 71,
+      "text": "    if (gateOpen && raw < closingThreshold()) gateOpen = false;\n    else if (!gateOpen && raw > openingThreshold()) gateOpen = true;\n    target = gateOpen ? clamp((raw - openingThreshold()) * sensitivity /\n                             FULL_SCALE_ABOVE_GATE, 0, 1) : 0;"
+    }
+  ],
+  "06-smoothing": [
+    {
+      "file": "SignalEnvelope.java",
+      "first_line": 78,
+      "last_line": 82,
+      "text": "  public static float smooth(float current, float target, float dt) {\n    float tau = target > current ? ATTACK_SECONDS : RELEASE_SECONDS;\n    float amount = (float)(1.0 - Math.exp(-Math.max(0, dt) / tau));\n    return current + (target - current) * amount;\n  }"
+    }
+  ],
+  "07-water": [
+    {
+      "file": "CityScene.pde",
+      "first_line": 49,
+      "last_line": 49,
+      "text": "    wavePhase = (wavePhase + dt * lerp(0.35f, 1.65f, energy)) % TWO_PI;"
+    },
+    {
+      "file": "CityScene.pde",
+      "first_line": 132,
+      "last_line": 132,
+      "text": "      float amplitude = (0.65f + energy * 4.5f) * (0.2f + depth);"
+    }
+  ],
+  "08-light": [
+    {
+      "file": "CityScene.pde",
+      "first_line": 226,
+      "last_line": 228,
+      "text": "    int calm = color(95 * shade, 122 * shade, 132 * shade);\n    int active = color(248 * shade, 222 * shade, 175 * shade);\n    fill(lerpColor(calm, active, 0.16f + energy * 0.84f));"
+    }
+  ],
+  "09-emission": [
+    {
+      "file": "VisualEffects.pde",
+      "first_line": 3,
+      "last_line": 4,
+      "text": "  final int MAX_PARTICLES = 180;\n  final int MAX_RIPPLES = 8;"
+    },
+    {
+      "file": "VisualEffects.pde",
+      "first_line": 33,
+      "last_line": 38,
+      "text": "    if (energy > 0.025) emissionRemainder += (12 + 95 * energy) * dt;\n    else emissionRemainder = 0;\n    int emit = min(int(emissionRemainder), MAX_PARTICLES - particles.size());\n    for (int i = 0; i < emit; i++) particles.add(new BreathParticle(energy));\n    // Drop excess emission when full. Never save a burst of deferred particles.\n    emissionRemainder = emissionRemainder % 1;"
+    }
+  ],
+  "10-expiry": [
+    {
+      "file": "VisualEffects.pde",
+      "first_line": 48,
+      "last_line": 53,
+      "text": "    for (int i = particles.size() - 1; i >= 0; i--) {\n      BreathParticle particle = particles.get(i);\n      particle.updateAndDraw(energy, dt);\n      // Reverse iteration avoids skipping elements when ArrayList indices shift.\n      if (particle.life <= 0 || particle.y < -20) particles.remove(i);\n    }"
+    }
+  ],
+  "11-ripple": [
+    {
+      "file": "VisualEffects.pde",
+      "first_line": 27,
+      "last_line": 27,
+      "text": "    if (currentWave != null) currentWave.strength = max(currentWave.strength, energy);"
+    },
+    {
+      "file": "VisualEffects.pde",
+      "first_line": 90,
+      "last_line": 90,
+      "text": "    radius += (55 + 150 * strength) * dt;"
+    }
+  ]
+}

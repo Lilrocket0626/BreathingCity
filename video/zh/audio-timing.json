@@ -1,0 +1,58 @@
+[
+  {
+    "chapter": 1,
+    "target_seconds": 20,
+    "raw_speech_seconds": 19.967959,
+    "tempo_multiplier": 1.0621254787234042,
+    "units": 5
+  },
+  {
+    "chapter": 2,
+    "target_seconds": 25,
+    "raw_speech_seconds": 22.878021,
+    "tempo_multiplier": 0.9612613865546218,
+    "units": 6
+  },
+  {
+    "chapter": 3,
+    "target_seconds": 25,
+    "raw_speech_seconds": 22.987627,
+    "tempo_multiplier": 0.9658666806722689,
+    "units": 6
+  },
+  {
+    "chapter": 4,
+    "target_seconds": 18,
+    "raw_speech_seconds": 16.856293,
+    "tempo_multiplier": 1.0033507738095238,
+    "units": 4
+  },
+  {
+    "chapter": 5,
+    "target_seconds": 18,
+    "raw_speech_seconds": 19.037334,
+    "tempo_multiplier": 1.133174642857143,
+    "units": 5
+  },
+  {
+    "chapter": 6,
+    "target_seconds": 32,
+    "raw_speech_seconds": 31.61623,
+    "tempo_multiplier": 1.026500974025974,
+    "units": 7
+  },
+  {
+    "chapter": 7,
+    "target_seconds": 30,
+    "raw_speech_seconds": 29.785791,
+    "tempo_multiplier": 1.0342288541666667,
+    "units": 8
+  },
+  {
+    "chapter": 8,
+    "target_seconds": 12,
+    "raw_speech_seconds": 12.415375000000001,
+    "tempo_multiplier": 1.1495717592592594,
+    "units": 3
+  }
+]

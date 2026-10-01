@@ -1,0 +1,1 @@
+Breathing City is a Processing artwork that connects sound intensity to a Sydney Harbour night scene. The bridge, opera-house shells, buildings, water and particles are drawn with code. The intended interaction uses a microphone: gentle input produces a quieter city, while stronger input produces brighter light and more motion.

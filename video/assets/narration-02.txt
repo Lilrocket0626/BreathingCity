@@ -1,0 +1,1 @@
+This demonstration uses labelled synthetic input in the running sketch. It shows calm, gentle, strong and recovery states, but it is not evidence of a person breathing into a microphone. Mouse simulation is also available. The real microphone path uses the Processing Sound library. It responds to loudness, so speech and other sounds can also activate it.

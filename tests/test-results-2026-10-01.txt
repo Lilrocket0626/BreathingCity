@@ -1,0 +1,47 @@
+Date: 2026-10-01
+Executed by: Codex during AI-assisted revision
+Host: macOS arm64
+Runtime: OpenJDK Temurin 17.0.20.1+1 (bundled with Processing 4.5.7)
+Scope: actual production signal and effect state code; no microphone, GUI, or FPS test
+
+Signal compilation command (workspace root):
+.tools/processing/Processing.app/Contents/app/resources/jdk/bin/javac -d /private/tmp/breathingcity-test-classes BreathingCity_A2/BreathingCity/SignalEnvelope.java BreathingCity_A2/tests/SignalEnvelopeTest.java
+Exit: 0
+
+Signal execution command:
+.tools/processing/Processing.app/Contents/app/resources/jdk/bin/java -cp /private/tmp/breathingcity-test-classes SignalEnvelopeTest
+Exit: 0
+Console output:
+PASS steady room calibration
+PASS isolated click rejected by percentile
+PASS persistent louder noise represented
+PASS silence calibration lower bound
+PASS opening and closing hysteresis
+PASS sensitivity is monotonic
+PASS attack/release are bounded and settle
+PASS response independent of 30/60/120 FPS
+PASS invalid samples and time deltas
+PASS tuning limits and motion reset
+PASS recalibration replaces previous floor
+PASS: 11 cases, 547 assertions.
+
+Effects compilation command:
+.tools/processing/Processing.app/Contents/app/resources/jdk/bin/javac -cp '.tools/final-build:.tools/processing/Processing.app/Contents/app/resources/core/library/*:.tools/sketchbook/libraries/sound/library/*' -d /private/tmp/breathingcity-test-classes BreathingCity_A2/tests/VisualEffectsTest.java
+Exit: 0
+
+Effects execution command:
+.tools/processing/Processing.app/Contents/app/resources/jdk/bin/java -Djava.awt.headless=true -cp '/private/tmp/breathingcity-test-classes:.tools/final-build:.tools/processing/Processing.app/Contents/app/resources/core/library/*:.tools/sketchbook/libraries/sound/library/*' VisualEffectsTest
+Exit: 0
+Console output:
+PASS: actual compiled VisualEffects; 324012 assertions.
+Simulated duration: 1800 seconds; peak particles: 180; peak ripples: 3. No rendered FPS or microphone validation.
+
+Source / compiled class SHA-256 at time of test:
+cd5ad51a2e2ffccd6b2e28a1b32f935f7e1388d555b6df4ba1681c0bd1135dab  BreathingCity/SignalEnvelope.java
+2352e041a129e5425afe4be516d7a8327ca05335e578f0e7cf460f915bae6462  BreathingCity/VisualEffects.pde
+132990d3a6560196dfa790239321e047b5c6f4a7a563b3bbf5ecaa11ceaf5054  compiled BreathingCity$VisualEffects.class
+
+Interpretation:
+The exercised state transitions and bounds passed. The simulated long sequence
+does not establish real elapsed-time performance, microphone availability,
+human breath discrimination, OS permission handling or hardware compatibility.

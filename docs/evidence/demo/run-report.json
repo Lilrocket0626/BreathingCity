@@ -1,0 +1,17 @@
+{
+  "max_ripples": 3,
+  "animation_seconds": 24.033309936523438,
+  "os": "Mac OS X 26.6.2",
+  "rendered_frames": 721,
+  "max_particles": 180,
+  "min_fps_after_warmup": 17.41826057434082,
+  "mode": "AUTO DEMO / SYNTHETIC RMS",
+  "evidence_limit": "Simulation; not evidence of human breath input",
+  "java": "17.0.20.1",
+  "microphone_error": "",
+  "fixed_animation_clock": true,
+  "project_version": "2.0",
+  "mean_fps_after_warmup": 28.286624908447266,
+  "device": "System default",
+  "microphone_opened": false
+}
