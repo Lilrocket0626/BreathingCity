@@ -1,88 +1,70 @@
-# Project journal / 真实开发过程记录
+# Breathing City project journal
 
-**Recorded session: 1 October 2026.** Entries below document the assistant's work during this revision. They are not claims that the student performed those steps personally or that earlier dated development occurred. Runtime measurements are kept in the [runtime report](runtime-test-report.md) and evidence logs.
+This journal records the main design decisions, problems, tests and revisions visible in the preserved source files and evidence. The starting and final concept maps were reconstructed from code during the final revision, so they compare architecture rather than claiming to be drawings made on the original dates. Generative AI support is described separately in the [declaration](genai-declaration.md) and [activity log](ai-prompt-log.md).
 
-## J1 — Inspect and preserve the supplied version
+## J1 — Clarifying the project goal
 
-**Observation:** The supplied sketch already contained procedural buildings, `AudioIn`, `Amplitude`, a three-second average calibration, attack/release interpolation, a particle cap and mouse simulation. Existing test rows were pending. The inherited documents described earlier dated work and tutor/course facts that were not available for verification.
+The starting idea was to use a laptop microphone to turn breathing into a visual Sydney Harbour scene. Early wording suggested that the program could detect human breathing. Reviewing the Processing Sound interface showed that this was too strong. `AudioIn` supplies an audio stream and `Amplitude.analyze()` returns an RMS sound level. The library does not identify the source or meaning of that sound.
 
-**Action:** Preserve pre-edit code and documents in `archive/baseline-2026-10-01/`, including a checksum manifest. Use the active project directory for the final version.
+The project goal was therefore revised to a testable claim: **Breathing City visualises microphone loudness, calibrated so that a nearby breath or blow can produce a noticeable response in an ordinary room.** Speech, music, wind and keyboard noise remain possible triggers. This limitation appears in the interface, README, video plan and written reflection.
 
-**Reason:** A comparison needs actual before/after files. A polished inherited document is not a substitute for runtime evidence or a genuine student reflection.
+The supplied version was preserved under `archive/baseline-2026-10-01/` before the active sketch was revised. This made it possible to compare the original single-file structure with the final five-file version.
 
-**Evidence:** Baseline `.pde`, archived documentation, `SHA256.json`, [issue log](issue-log.md).
+## J2 — Stabilising the microphone signal
 
-## J2 — Turn requirements into traceable changes
+The baseline used a simple average-based calibration and a fixed response range. That approach could react continuously when the ambient room level changed. The revised signal pipeline separates five values:
 
-**Source-review findings:** Runtime sensitivity was fixed, generic rectangular buildings were insufficiently recognisable as Sydney, sea-wave speed was fixed, and ripple strength was captured close to the trigger crossing, making strong/weak rings too similar. Frame-based timing could vary with rendering performance.
+1. `raw`, the RMS level reported by `Amplitude`.
+2. `noiseFloor`, estimated from quiet calibration readings.
+3. `gateOpen`, controlled by separate opening and closing thresholds.
+4. `target`, the normalised and sensitivity-adjusted value from 0 to 1.
+5. `intensity`, the attack/release-smoothed value used by the scene.
 
-**Decision:** Keep the existing Processing Java/Sound foundation. Add adjustable input conditioning, explicit microphone/simulation status, Sydney landmark geometry, elapsed-time visual motion and bounded effects. Split responsibilities across Processing tabs rather than introduce a second application framework.
+Calibration now collects at least three seconds of quiet readings and uses the 90th percentile, with a small minimum floor. The opening threshold is the noise floor plus an adjustable margin. The closing threshold uses only 55% of that margin. These two thresholds create hysteresis and reduce rapid switching near one boundary.
 
-**Evidence:** Final `.pde` tabs; the before/after concept maps reconstruct these two code structures from the files. They do not represent the student's historical mental state.
+Sound above the opening threshold is scaled by sensitivity and divided by a defined full-scale range. The result is clamped from 0 to 1. A 0.10-second attack time constant lets the scene respond quickly, while a 0.55-second release lets it settle more gradually. Runtime controls allow recalibration, margin adjustment, sensitivity adjustment and input-device changes without editing the source.
 
-## J3 — Make input behaviour explainable
+## J3 — Mapping data into visual behaviour
 
-**Decision:** Separate raw RMS amplitude, estimated room level, gate threshold, normalised target and smoothed energy. Display the pipeline state so calibration and sensitivity can be diagnosed. Preserve a labelled synthetic mode to inspect graphics when a microphone is unavailable.
+The visual response is a creative mapping rather than a property contained in the audio. The final `energy` value controls several systems with different ranges:
 
-**Tradeoff:** This remains an amplitude-driven interaction. Noise conditioning can reduce small background activations but cannot tell breath from speech, music or a loud fan. A gain value that feels good on one device may not transfer unchanged to another.
+- `lerpColor()` blends calm and active colours in the sky and landmarks.
+- Building, bridge and Opera House lights become brighter.
+- Wave phase advances faster and wave amplitude increases.
+- Particle emission and upward speed increase, subject to a 180-particle cap.
+- Ripple events record the strongest energy reached during an input event and expire after 2.3 seconds.
 
-**Evidence:** Input tab; [code walkthrough](code-walkthrough.md); actual runtime logs where available. Device-specific human breath testing must be recorded independently.
+The final code separates responsibilities across `BreathInput`, `SignalEnvelope`, `CityScene`, `VisualEffects` and the main Processing tab. This separation made the signal logic testable without drawing a window and made the video explanation easier to organise around input, transformation and output.
 
-## J4 — Documentation and attribution correction
+## J4 — Testing and regression fix
 
-**Action:** Consult official Processing references, list exactly what each reference contributed, remove unverified earlier student/tutor/course claims from active documents, and mark course-source and peer-feedback gaps explicitly.
+The validation process combined real Processing builds, deterministic Java checks, rendered demonstrations and live microphone measurements. The signal-envelope checks passed 11 cases with 547 assertions. The effect-state harness completed 324,012 assertions across 1,800 simulated seconds while respecting the configured bounds. A rendered run completed 600.014 animation seconds with an average of 58.21 FPS and no progressive decline in the recorded early and late samples.
 
-**Evidence:** [References](references.md), [AI log](ai-prompt-log.md), [declaration](genai-declaration.md). The course-source register and blank peer form were later moved to separate working drafts.
+Testing also found a real state-management problem. Pressing `N` during a guided microphone trial changed the input device but retained the old trial phase and graph history. This could display a misleading state after reconnection. The handler was changed so `N` cancels the active trial and clears the graph. `R` now also cancels a trial before recalibration. The original failing record was retained, and the corrected callbacks passed 10 cases with 1,017 assertions.
 
-## J5 — Completed software checks and demonstration
+The live guided run recorded different numeric levels across the prompted quiet, gentle and strong phases. These measurements show that the microphone path responded, but the phase labels only record requested actions. They do not independently prove that every sound was a human breath. This evidence boundary is kept in the [runtime report](runtime-test-report.md).
 
-**Recorded results:** The real Processing 4.5.7 build with Sound 2.4.0 passed. The deterministic signal tests passed 11 cases with 547 assertions. The production-effects harness completed 324,012 assertions across 30 simulated minutes; observed counts stayed at or below 180 particles and 3 ripples (the configured ripple cap remains 8). Simulated duration is not 30 minutes of GUI/audio wall-clock performance.
+## J5 — Responding to feedback
 
-**Runtime evidence:** The application rendered a labelled synthetic sequence used for demonstration. A separate live microphone capture produced changing RMS values without capture errors. A 180-second 1080p explainer was produced with actual rendered demonstration footage, readable code sections and English synthetic narration; its file size is approximately 7.7 MiB. This is a project/implementation demonstration, not a student-voiced presentation or evidence of real breath actions.
+The tutor asked for individual pieces of code to be explained instead of showing only the final animation. Detailed comments were therefore added across the five production files. The comments explain variable roles, function responsibilities, state changes, thresholds and the reason for bounds. The final video plan follows the data flow from `AudioIn` and RMS measurement, through `SignalEnvelope`, into `CityScene` and `VisualEffects`.
 
-**Evidence:** [Runtime report](runtime-test-report.md), `docs/evidence/`, [narration and shot list](explainer-video-script.md). Fresh-copy verification and the separate sustained GUI test were still in progress when this entry was written; the runtime report contains their final status.
+Class feedback raised the possibility that room noise could repeatedly trigger the city. The response was to make calibration, threshold margin, sensitivity, hysteresis and attack/release behaviour visible and adjustable. The remaining limitation was not hidden: amplitude conditioning improves stability but cannot classify breath.
 
-## J6 — User-agreed guided microphone trial
+## J6 — Final interpretation and next step
 
-**Participation status:** The user explicitly agreed to a one-minute guided trial. The app displayed quiet, gentle, strong and recovery prompts and completed its capture. At the time of this entry, the user had not yet confirmed whether every prompt was followed or whether the visual difference felt clear. Prompt labels therefore describe the requested action, not independently verified behaviour.
+The main learning outcome was a change from treating code as a visual effect to treating it as a chain of measurements, states and decisions. A bright city does not prove that the program interpreted the sound correctly. Each claim needs evidence that matches its scope. Automated tests can verify formulas, transitions and collection bounds. They cannot evaluate whether a participant experiences the work as breathing-sensitive.
 
-**Recorded environment and run:** Processing 4.5.7, Sound 2.4.0, default input device, no reported audio error; 62.005 seconds and 2,995 rendered frames. Mean recorded FPS was 50.376 and minimum 25.675 while video encoding ran concurrently. This loaded run is not an isolated performance benchmark. The calibrated floor was 0.001740.
+A useful next test would compare at least two microphones in quiet and moderately noisy rooms. For each setup, the noise floor, threshold, sensitivity, gentle input range and strong input range should be recorded before making one tuning change at a time. Participant comments should then be compared with the numerical evidence. If the project later aims to distinguish breathing from speech or music, RMS amplitude alone will be insufficient and the project will need additional audio features or classification methods.
 
-| Prompted phase | Median RMS | Maximum RMS | Median energy | Maximum energy |
-|---|---:|---:|---:|---:|
-| Quiet | 0.00134 | 0.00250 | 0 | 0 |
-| Gentle | 0.00206 | 0.00965 | 0.0182 | 0.1024 |
-| Strong | 0.01716 | 0.18651 | 0.5715 | 1 |
-| Recovery | 0.00164 | 0.11147 | 0.0106 | 0.999 |
-| Complete | 0.00117 | 0.00178 | 0 | 0 |
+## Evidence summary
 
-**Interpretation with limits:** The recorded prompted periods show clear numerical separation between gentle and strong, and the final phase returned to zero. Gentle energy remained low for much of its interval; whether that feels sufficiently visible requires the user's observation. Recovery contains an early high energy value and a high raw input maximum, so the whole phase must not be described as uninterrupted silence. The logs alone cannot determine whether this was continuing input, timing of the user's actions or another sound.
+| Evidence | Recorded result | Interpretation boundary |
+|---|---|---|
+| Processing build | Pass with Processing 4.5.7 and Sound 2.4.0 | Tested environment only |
+| Signal envelope | 11 cases, 547 assertions | Formula and state behaviour, not sound-source identity |
+| Control callbacks | 10 cases, 1,017 assertions after fix | Callback logic, not physical keyboard delivery |
+| Effect-state stress | 324,012 assertions | Simulated state time, not 30 minutes of rendered use |
+| Rendered endurance | 600.014 seconds, mean 58.21 FPS | One tested Mac and workload |
+| Guided microphone run | 62.005 seconds recorded | Prompt labels do not independently verify the sound source |
 
-**Next step:** Obtain the user's confirmation and qualitative observation, then decide whether a sensitivity change and controlled retest are useful. Preserve this first result even if settings are changed. It is not peer feedback, and it does not replace the five missing course sources.
-
-For complete commands, raw logs and the final status of each test, read the [runtime report](runtime-test-report.md). The [runtime test instructions](runtime-test-instructions.md) are procedures, not results.
-
-## Next real student entry — fill only after doing the work
-
-Date / time / code version:  
-What I tried before receiving help:  
-What I personally changed and why:  
-Exact failure / unexpected behaviour:  
-Measured before result and evidence file:  
-Measured after result and evidence file:  
-What I can now explain without reading the guide:  
-Peer feedback and what I did with it:  
-Course source, page/time and how it changes my interpretation:  
-Next question or remaining limitation:  
-
-## Final regression and handover verification
-
-A direct callback test exposed a guided-test state defect: N changed device while retaining the old trial phase. The first regression run failed. The final N handler cancels the trial and clears the graph; R also cancels a trial before recalibration. The same final production callbacks passed 10 cases / 1,017 assertions, with the before/after logs retained in `tests/`. An independent copy of the exact final five source files then compiled and ran for 24 seconds with actual screenshots and no missing assets.
-
-The native rendered endurance run completed 600.014 animation seconds and 34,825 frames, with mean FPS 58.21, peak 180 particles and 3 ripples. The early/late telemetry FPS means were 57.46 / 57.79. Rendering, envelope and effects were unchanged during that run; the later R/N handler correction was separately tested. This is approximately ten minutes of GUI operation, distinct from the accelerated 1,800-second state test. Full values and limitations appear in `runtime-test-report.md`.
-
-The final package preserves the 21 baseline files, source hashes, a complete source patch, original failed regression output, measured CSVs, runtime PNGs, code guides, concept diagrams and the 180-second synthetic-narrated video. Human action/visual confirmation, peer feedback and five genuine course sources remain separate evidence requirements.
-
-## Chinese video edition
-
-At the user's request, the explainer was adapted into Mandarin narration, Chinese captions and Chinese presentation cards. The English code excerpts and actual Processing-rendered source footage remain traceable. The Chinese edition is180seconds at1080p, using disclosed macOS Tingting synthetic speech. Subtitle timings use measured speech-unit lengths; light/water and expiry/ripple card changes were aligned to the corresponding Mandarin clauses. Both language editions are retained. This media edit does not constitute another microphone test or personal student experience.
+Detailed commands, measurements and raw evidence are listed in the [runtime test report](runtime-test-report.md), [issue log](issue-log.md) and `docs/evidence/` folders.

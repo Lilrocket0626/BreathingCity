@@ -45,17 +45,9 @@ The Processing hash matched its published release checksum. The Sound hash is th
 
 Sources and acknowledgements apply to the actual artifact used. API usage follows official references; no stock art or downloaded tutorial scene is incorporated. The baseline and this revision are substantially AI-assisted. See [references](references.md) for APA 7 and contribution details, and [AI declaration](genai-declaration.md) for assistance disclosure.
 
-## Optional development and video tools
+## Optional developer checks
 
-These are not sketch dependencies. They are useful only to rebuild evidence.
-
-- JDK 17+ for command-line tests; this session used Processing's bundled Temurin 17.0.20.1+1.
-- Python 3 with Pillow for the previously produced video cards; media files are outside the current project package.
-- FFmpeg/FFprobe 7.1.1 for H.264/AAC encoding, captions and validation.
-- macOS `say`, Samantha voice, for synthetic English narration. The narration text remains under `presentation/subtitles/`; audio assets are not included in this package. This is not the student's voice.
-- System Arial and Menlo fonts for presentation graphics; those fonts are not redistributed. Java `SansSerif` is used by the sketch itself.
-
-The previously produced video used original runtime exports and code excerpts, with no external footage or music. It used labelled synthetic input and synthetic narration. The video and its authoring assets are not part of this project package.
+These are not sketch dependencies. A JDK 17 or newer is useful only for running the command-line checks under `tests/`; the recorded session used Processing's bundled Temurin 17.0.20.1+1. Normal use in the Processing editor does not require a separate JDK, Python, FFmpeg or any video-building tool.
 
 ## Optional evidence capture
 
@@ -70,7 +62,3 @@ Normal Processing use requires no environment variables. For an automated run la
 | BC_GUIDED_TEST | 1 | Starts the live microphone guided trial after setup |
 
 With `BC_RUN_DIR`, telemetry stores RMS and state values, not audio. Without it, no automatic numeric log is created. Pressing S still saves a screenshot. Captured frame export has disk/CPU overhead. `BC_DURATION` measures the sketch's clamped animation time; the report does not claim that this is identical to a stopwatch under long OS stalls. Developer tooling is optional and intentionally kept outside the normal README launch steps.
-
-## Chinese video edition
-
-The Chinese edition uses macOS Tingting synthetic Mandarin narration and Heiti SC presentation/caption text, with Menlo for source code. It reuses the actual Processing-rendered demo clip. Font binaries are not distributed. The script is `tools/build_video_zh.py`; all these tools remain optional authoring dependencies. The Chinese video and its authoring assets are not included in this package.

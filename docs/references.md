@@ -1,6 +1,6 @@
 # References and contribution register
 
-Verified against the linked primary sources on 1 October 2026. These are **public technical references**. None has been verified as a prescribed course reading. The separate course-source register is retained with the working drafts outside the submission directory.
+Public technical references were checked against their linked primary sources on 1 October 2026. Course documents and reflection sources used in the written critical reflection are listed separately below.
 
 ## APA 7 reference list
 
@@ -25,6 +25,22 @@ Processing Foundation. (n.d.-h). *Sound*. https://processing.org/reference/libra
 Processing Sound contributors. (n.d.). *Processing Sound library* [Computer software]. GitHub. Retrieved October 1, 2026, from https://github.com/processing/processing-sound
 
 Use the same `n.d.-a` to `n.d.-h` suffixes in text; they distinguish undated works by the same author. The exact installed software versions belong in the README and runtime report; the generic documentation pages do not establish which version was actually tested.
+
+## Course and reflection sources
+
+Hatton, N., & Smith, D. (1995). Reflection in teacher education: Towards definition and implementation. *Teaching and Teacher Education, 11*(1), 33–49. https://doi.org/10.1016/0742-051X(94)00012-U
+
+OpenAI. (2026). *ChatGPT* [Large language model]. https://chatgpt.com/
+
+University of Technology Sydney. (2026a). *Creative Coding A1 brief 2026* [Assessment brief].
+
+University of Technology Sydney. (2026b). *Creative Coding A2 brief 2026* [Assessment brief].
+
+University of Technology Sydney. (2026c). *Creative Coding A2 checklist 2026* [Course checklist].
+
+University of Technology Sydney. (2026d). *Creative Coding week 07 seminar 2026* [Lecture slides].
+
+University of Technology Sydney. (2026e). *Creative Coding—Written critical reflection: Additional guidance 2026* [Course guide].
 
 ## What each source contributed
 

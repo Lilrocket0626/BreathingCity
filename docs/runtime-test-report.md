@@ -73,17 +73,16 @@ A callback review identified a real state bug after guided tests were added: cha
 
 Physical desktop keyboard automation could not attach to the temporary Java application through the available UI interface, so it is not represented as a passed keyboard test. Normal key routing uses Processing's `keyPressed()` callback; participant testing on the final demonstration computer should still exercise M, R, N, D, H and S.
 
-The captured video and sustained run exercise unchanged rendering, audio-envelope and effect code. A later keyboard-state fix affects only R/N cancellation of an active guided trial. Final source checksums and the fresh-copy/callback checks identify the delivered revision; earlier raw evidence is retained rather than silently rewritten.
+The captured demonstration and sustained run exercise unchanged rendering, audio-envelope and effect code. A later keyboard-state fix affects only R/N cancellation of an active guided trial. Final source checksums and the fresh-copy/callback checks identify the delivered revision; earlier raw evidence is retained rather than silently rewritten.
 
-## Screenshots and three-minute video
+## Screenshots and video preparation
 
 - [Calm](evidence/demo/02-calm.png), [gentle](evidence/demo/03-gentle.png), [strong](evidence/demo/04-strong.png), [recovery](evidence/demo/05-recovery.png): actual Processing-rendered synthetic-input states.
 - [Guided live microphone screenshot](evidence/human-trial-01/guided-strong.png): actual microphone input and on-screen requested action.
-- Historical three-minute video export (not included in this package): 180 seconds, 1920×1080, H.264/AAC, about 7.7 MiB. Full decode succeeded. It contains actual rendered demo footage, exact source excerpts, captions and clearly disclosed synthetic English narration.
-- Historical video validation covered encoding, duration, excerpt and visual checks. The separate media validation file is not included in this package. No human listening test is claimed.
+- The final three-minute explanation is recorded separately by Jiangpeng Huang using the submitted slide deck and the source locations listed in [explainer-video-script.md](explainer-video-script.md). The recording itself is not a runtime dependency and is not stored in this repository.
 
 ## Acceptance boundary and remaining evidence
 
 The code builds and runs on the tested Mac with the actual stated library versions, captures live RMS and presents labelled simulation. Numeric tests, code bounds, rendered sequences and independent-copy verification support software correctness within their recorded scopes.
 
-Still required from the student/course: confirm the guided actions and qualitative result, record any personal tuning revision, collect real peer feedback and provide at least five genuine course sources. Reflection drafts are maintained separately from the runnable project. Public technical references do not satisfy the course-source requirement by themselves. No peer response, tutor permission, student learning experience, clean-OS installation or untested-platform compatibility has been invented.
+The written reflection separately integrates tutor feedback, class feedback and five course documents. Those reflective sources are not software test evidence. The guided-run logs still cannot independently confirm the participant's physical actions or subjective experience, and no clean-OS installation or untested-platform compatibility is claimed.
