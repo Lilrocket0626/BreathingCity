@@ -1,130 +1,121 @@
 # Breathing City
 
-An interactive, code-drawn Sydney Harbour night scene. Microphone loudness controls the sky, building and landmark lights, water, particles and expanding ripples. Quiet input produces a restrained response; stronger input produces brighter light and faster movement. The image settles smoothly after input stops.
+**52685 Creative Coding A2**
 
-**Final runnable sketch: [`BreathingCity/BreathingCity.pde`](BreathingCity/BreathingCity.pde).** Open this file, not the archived baseline. Keep all five code files in the same `BreathingCity` folder. The scene contains a stylised Harbour Bridge and Opera House, built from geometric shapes.
+**Student:** Jiangpeng Huang (14559823)
 
-This is an AI-assisted revision of the supplied prototype. It measures sound level, not the identity of a breath. Speech, music and other sufficiently loud sounds can also activate it.
+Breathing City is an interactive Processing artwork that maps microphone loudness to a changing Sydney Harbour night scene. A nearby breath or blow can produce a visible response, but the program measures RMS amplitude rather than recognising the sound as human breathing. Speech, music, wind and other sufficiently loud sounds can also activate the scene.
 
-![Actual Processing rendering with labelled synthetic input](docs/evidence/demo/04-strong.png)
+![Strong state produced by the labelled automatic demonstration](docs/evidence/demo/04-strong.png)
 
-## Features
+The final runnable sketch is [`BreathingCity/BreathingCity.pde`](BreathingCity/BreathingCity.pde). Keep all five source files in the same `BreathingCity` folder.
 
-- Real microphone capture through the official Processing Sound library; input selection and reconnect controls.
-- Three seconds of quiet calibration, a robust noise estimate, adjustable threshold margin and sensitivity, and hysteresis.
-- Frame-rate-independent attack/release smoothing.
-- Distinct light, water, particle and ripple responses; continuously strengthened ripple events.
-- Mouse simulation and a labelled automatic demonstration, usable without microphone access.
-- A guided one-minute microphone test, a live data panel, and PNG screenshot saving.
-- Fixed scene arrays, a 180-particle cap, an eight-ripple cap and finite effect lifetimes.
+## Project goal
 
-## Actual tested environment
+The project converts a changing audio level into one shared `energy` value between 0 and 1. That value controls the colour and brightness of the sky and landmarks, window lights, wave speed and height, particle emission and expanding ripples. The design aims to make an invisible input legible while keeping the response stable in an ordinary room.
 
-| Component | Version actually used |
+## Requirements
+
+The submitted version was tested with:
+
+| Component | Tested version |
 |---|---|
-| Processing | **4.5.7**, Java mode, revision 1435 |
-| Processing Sound library | **2.4.0**, library revision 18 |
-| Java used by Processing sketches | Bundled Temurin **17.0.20.1+1** |
-| Sound dependency | JSyn **17.1.0**, included with Sound |
-| Test operating system | **macOS 26.6.2, Apple Silicon arm64** |
-| Renderer / window | Default JAVA2D, 1280 × 720, pixel density 1 |
+| Processing | 4.5.7, Java mode |
+| Processing Sound library | 2.4.0 |
+| Java | Temurin 17 bundled with Processing |
+| Tested platform | macOS 26.6.2, Apple Silicon |
 
-These are measured versions, not untested minimum requirements. Windows/Linux and different Processing/Sound versions have not been verified here. A separate system JDK is unnecessary for normal use in the Processing editor.
+The artwork requires a laptop microphone and microphone permission for live input. It does not load external images, audio recordings, fonts, APIs or online services. See [runtime dependencies and asset provenance](docs/runtime-dependencies.md) for the complete record.
 
-See [dependencies and assets](docs/runtime-dependencies.md) for exact download URLs, hashes, optional authoring tools and licensing/source notes. The delivered sketch does **not** require Python, ffmpeg, a browser, an API key or network access at runtime.
+## Installation and run instructions
 
-## Installation
+1. Install [Processing 4.5.7](https://github.com/processing/processing4/releases/tag/processing-1435-4.5.7).
+2. Open Processing in Java mode.
+3. Choose **Sketch > Import Library > Manage Libraries**, search for **Sound**, and install the official Processing Sound library. This project was tested with version 2.4.0.
+4. Open `BreathingCity/BreathingCity.pde`. Processing should display the four companion tabs automatically.
+5. Press **Run** and allow microphone access.
+6. Remain quiet during the first three seconds so the program can estimate the room noise floor.
+7. Breathe or blow near the microphone and observe the scene. Do not blow directly against the microphone grille.
 
-1. Download **Processing 4.5.7** for your OS from the [official release](https://github.com/processing/processing4/releases/tag/processing-1435-4.5.7). Extract/install and launch Processing.
-2. Select **Java** mode in the mode selector.
-3. Select **Sketch → Import Library → Manage Libraries**, search for **Sound**, and install the official Processing Sound library. This project was tested with **2.4.0**.
-4. If the manager offers a different version and an exact reproduction is needed, download [official Sound 2.4.0](https://github.com/processing/processing-sound/releases/download/v2.4.0/sound.zip). Close Processing, extract the ZIP's `sound` folder into the `libraries` directory of your sketchbook, and reopen Processing. The resulting path should be `SKETCHBOOK/libraries/sound/library/sound.jar`; avoid a nested `sound/sound` folder or duplicate installations.
-5. Unzip this project to a writable local folder. Keep `BreathingCity/SignalEnvelope.java` together with all four `.pde` files.
-6. Open `BreathingCity/BreathingCity.pde`. Processing should show the additional code tabs automatically.
-
-## Run
-
-1. Press **Run** in Processing. The default mode is the real microphone.
-2. Allow the microphone permission requested by the OS. If permission is changed after launch, press **I** to reconnect; restarting Processing may be necessary.
-3. Remain quiet during calibration. The panel shows the measured floor and opening threshold.
-4. Breathe or blow gently towards the microphone from a comfortable distance. Compare gentle and stronger input, then stop and watch the decay. Avoid blowing directly against the microphone grille.
-5. If background sound activates the scene, press **R** in the normal room environment and stay quiet; increase the margin with **]** if necessary. If useful input is too weak, increase sensitivity with **=**. If both gentle and strong inputs saturate, reduce sensitivity with **-**.
-6. Press **G** for on-screen instructions for a one-minute human trial: quiet, gentle input, stronger input, stop/recovery. This requests actions; the participant must confirm what they actually did.
-
-For a microphone-free check, press **M** and move the mouse left/right inside the sketch, or press **A** for an automatic sequence. These modes are clearly labelled and must not be presented as real breath-test evidence. The Sound library is still required to compile the project.
+If the scene reacts continuously in a quiet room, press **R** and recalibrate. Increase the threshold margin with **]** if background noise still opens the gate. If useful input crosses the threshold but the visual response remains weak, increase sensitivity with **=**.
 
 ## Controls
 
 | Key | Action |
 |---|---|
-| M | Switch between microphone and mouse simulation |
-| A | Start/restart the automatic synthetic-input demonstration |
-| G | Start the guided 60-second human microphone trial |
-| R | Recalibrate the active microphone; restart calibration in auto demo |
-| I | Reconnect microphone and recalibrate |
-| N | Select the next input-capable audio device and recalibrate |
-| [ / ] | Decrease/increase threshold margin by 0.0005 |
-| - / = or + | Divide/multiply sensitivity by 1.25 |
-| 0 | Restore margin 0.002 and sensitivity 1.0 |
-| D | Toggle the data panel |
-| H | Toggle the keyboard help |
-| S | Save a timestamped PNG under `BreathingCity/screenshots/` |
-| Esc | Close the sketch |
+| `M` | Switch between microphone and mouse simulation |
+| `A` | Start the labelled automatic demonstration |
+| `G` | Start the guided one-minute microphone trial |
+| `R` | Recalibrate the active microphone |
+| `I` | Reconnect the microphone |
+| `N` | Select the next available input device |
+| `[` / `]` | Decrease / increase the threshold margin |
+| `-` / `=` | Decrease / increase sensitivity |
+| `0` | Restore the default margin and sensitivity |
+| `D` | Show or hide the diagnostic panel |
+| `H` | Show or hide keyboard help |
+| `S` | Save a PNG screenshot |
 
-Tuning is intentionally session-only. Mouse mode controls visual intensity directly: it does not sample RMS and bypasses microphone threshold and sensitivity. Neither simulation mode records microphone audio. Recalibrating or changing the input device cancels a guided trial; press G to start a fresh one.
+Mouse and automatic modes are labelled simulations. They demonstrate the visual mapping but do not provide evidence of microphone or breath performance.
 
-## Files for the assessor
+## Signal pipeline
 
-**Presentation materials:** [English / 中文 PPT and subtitle manuscripts](presentation/README.md). Each language has a 12-slide editable deck, a Word manuscript, UTF-8 narration, and its original timecoded SRT captions.
+1. `AudioIn` opens the selected microphone channel.
+2. `Amplitude.analyze()` returns one RMS loudness value for the current audio block.
+3. `SignalEnvelope` samples three seconds of quiet input and uses the 90th percentile as the room noise floor.
+4. A higher opening threshold and lower closing threshold create hysteresis and reduce rapid on/off switching.
+5. Sound above the opening threshold is scaled by sensitivity and limited to a target between 0 and 1.
+6. Separate attack and release time constants smooth the target into the final `energy` value.
+7. `CityScene` and `VisualEffects` use that value to update the drawing.
 
-```text
-BreathingCity_A2/
-├── README.md                           Start here
-├── BreathingCity/                      FINAL RUNNABLE SKETCH
-│   ├── BreathingCity.pde                Setup, modes, UI, guided test, evidence
-│   ├── BreathInput.pde                 Sound input lifecycle and devices
-│   ├── SignalEnvelope.java             Calibration, gate, gain and smoothing
-│   ├── CityScene.pde                   Sydney landmarks, lights and water
-│   └── VisualEffects.pde               Bounded particles and ripples
-├── docs/
-│   ├── runtime-dependencies.md         All assets, versions and dependencies
-│   ├── runtime-test-report.md          What was actually run and measured
-│   ├── code-walkthrough.md             English technical explanation
-│   ├── study-guide-zh.md               Chinese revision and explanation guide
-│   ├── project-journal.md              Recorded revision process
-│   ├── issue-log.md                    Defects, changes and evidence
-│   ├── concept-map-start.svg/.png      Reconstructed baseline concept map
-│   ├── concept-map-final.svg/.png      Revised implementation concept map
-│   ├── data-flow.svg/.png              Audio-to-image pipeline
-│   ├── references.md                   APA 7 references and contributions
-│   ├── genai-declaration.md            Accurate assistance disclosure
-│   └── evidence/                      Actual screenshots, CSVs and reports
-├── presentation/                      English/Chinese PPT and subtitle manuscripts
-├── tests/                              Tests against production code and results
-├── tools/                              Optional verification/video tools
-└── archive/                            Preserved baseline code and history
-```
+The [code walkthrough](docs/code-walkthrough.md) explains each stage and identifies the relevant source files and functions.
 
-## Validation and evidence
+## Source structure
 
-The baseline and final sketch were compiled using real Processing, not API stubs. Actual demo frames and an initial microphone capture are retained. Automated numeric/state tests operate on the production classes. See the [runtime test report](docs/runtime-test-report.md) and [test instructions](docs/runtime-test-instructions.md) for exact results and limits; screenshot mode labels distinguish simulated input from microphone observations.
+| File | Responsibility |
+|---|---|
+| `BreathingCity.pde` | Processing lifecycle, modes, controls, UI and evidence capture |
+| `BreathInput.pde` | Microphone setup, device selection and RMS input |
+| `SignalEnvelope.java` | Calibration, thresholds, sensitivity, hysteresis and smoothing |
+| `CityScene.pde` | Sydney skyline, Harbour Bridge, Opera House, lighting and water |
+| `VisualEffects.pde` | Bounded particles and ripple events |
 
-The current package contains the runnable sketch, screenshots, technical documentation, PPT decks and subtitle manuscripts. See [archive export notes](archive/EXPORT-NOTES.md) for the baseline files included in the distribution.
+## Development and evidence
 
-## Known limitations and troubleshooting
+- [Project journal](docs/project-journal.md)
+- [Issue and change log](docs/issue-log.md)
+- [Start concept map](docs/concept-map-start.png) and [final concept map](docs/concept-map-final.png)
+- [Audio-to-visual data flow](docs/data-flow.png)
+- [Runtime test report](docs/runtime-test-report.md)
+- [Runtime evidence guide](docs/evidence/README.md)
+- [Reproducible code checks](tests/README.md)
+- [References and contribution register](docs/references.md)
+- [Generative AI declaration](docs/genai-declaration.md)
+- [AI prompt and activity log](docs/ai-prompt-log.md)
 
-- **Sound level is not breath recognition.** Speech, keyboard noise, wind and music may trigger the scene. Calibration reduces ordinary background triggering but cannot isolate breathing.
-- **Calibration requires quiet.** Its 90th percentile tolerates isolated clicks, not sustained speech. Press R after changing rooms, microphones or OS input gain.
-- **Sensitivity is device-dependent.** If intensity remains at 1 for both gentle and strong input, lower gain. If it stays near 0, check raw RMS, permission, selected device and threshold before increasing gain.
-- **No microphone / no signal:** press I to retry, N to try another listed input, or M/A for simulation. The console prints devices. A new or removed device may require restarting Processing if the OS audio backend caches its device list.
-- **Sound import error:** install Sound and restart Processing. M/A cannot bypass a missing compile-time library.
-- **Library startup error:** verify architecture and library installation. The tested ARM Mac used Sound's default JavaSound backend; do not force its x86-only macOS PortAudio binary.
-- **Slow machine:** the animation uses elapsed time, with pauses clamped to 0.1 seconds. Long stalls therefore slow animation time. Recording every PNG lowers FPS and is not a benchmark of ordinary interactive performance.
-- **No persistent settings:** threshold and sensitivity reset on restart. Screenshots require a writable project directory.
-- **Human/academic evidence:** peer feedback and five genuine course materials must come from the student/course. Public technical references are not automatically course sources. Archived historical claims are unverified inherited material.
+The preserved starting sketch is in `archive/baseline-2026-10-01/`. The active version is always the five-file sketch in `BreathingCity/`.
 
-## Sources and contribution
+## Verified results
 
-The Sound API connection follows the official [Amplitude](https://processing.org/reference/libraries/sound/Amplitude) interface example. Official [AudioIn](https://processing.org/reference/libraries/sound/AudioIn) and [inputDevice](https://processing.org/reference/libraries/sound/Sound_inputDevice_) documentation establish stream and device semantics. Processing drawing and interpolation references support the visual implementation. The procedural geometry, project-specific envelope, effects, UI and tests were written for this AI-assisted revision; no external scene code, image, music, texture, video or font file is loaded by the sketch.
+The recorded checks include:
 
-Full APA 7 entries, baseline-only references and each source's actual contribution are in [references.md](docs/references.md). Assistance and provenance are in [genai-declaration.md](docs/genai-declaration.md). No tutor permission, peer feedback or personal learning experience is assumed.
+- Processing 4.5.7 compilation with Sound 2.4.0.
+- 11 signal-envelope cases with 547 assertions.
+- 10 control-callback cases with 1,017 assertions after correcting the guided-trial reset behaviour.
+- 324,012 effect-state assertions across 1,800 simulated seconds.
+- A 600.014-second rendered run with an average of 58.21 FPS and the configured 180-particle bound respected.
+
+These tests support the stated software behaviour within their recorded conditions. They do not prove that every microphone, room or sound source will produce the same result. The detailed limits are in the [runtime test report](docs/runtime-test-report.md).
+
+## Known limitations
+
+- The program measures loudness and does not classify human breathing.
+- Quiet calibration depends on the room, microphone and system input gain.
+- The same sensitivity value may not suit different devices.
+- A sustained loud room can raise the estimated noise floor or activate the scene.
+- The guided prompts record requested phases and microphone values; they do not independently identify the sound source.
+- Windows, Linux and Processing/Sound versions other than those listed above were not tested.
+
+## Generative AI use
+
+ChatGPT and Codex supported ideation, technical explanation, code and comment revision, testing suggestions, source checking, and drafting or editing written materials. Jiangpeng Huang reviewed the suggestions, selected the final content, and is responsible for understanding, explaining and submitting the prototype. The full statement and limitations of AI use are recorded in the [Generative AI declaration](docs/genai-declaration.md).
